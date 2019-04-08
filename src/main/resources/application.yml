@@ -1,0 +1,15 @@
+
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.csust.InternetCafe.common.entity
+  global-config:
+    id-type: 2
+    field-strategy: 2
+    db-column-underline: true
+
+server:
+  port: 8080
+spring:
+  profiles:
+    active: dev
