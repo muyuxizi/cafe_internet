@@ -1,12 +1,16 @@
 package com.csust.InternetCafe;
 
+import com.alibaba.dubbo.config.spring.context.annotation.EnableDubboConfig;
+import com.alibaba.dubbo.config.spring.context.annotation.EnableDubboConfigBinding;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 
 
 @SpringBootApplication()
+@EnableDubboConfig
 public class CafeInternetApplication {
 
     public static void main(String[] args) throws Exception{

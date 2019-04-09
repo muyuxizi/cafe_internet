@@ -39,4 +39,13 @@ spring:
     port: 5672
     username: guest
     password: guest
+dubbo:
+  application:
+    name: provider
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  protocol:
+    name: dubbo
+    port: 20880
+    server: true
 
