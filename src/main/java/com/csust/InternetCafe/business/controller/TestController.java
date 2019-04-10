@@ -69,6 +69,6 @@ public class TestController {
     @RequestMapping("/login/timeout")
     @GetMapping
     public String timeOut(){
-        return "请重新登陆";
+        return "login.html";
     }
 }

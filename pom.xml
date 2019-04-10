@@ -172,9 +172,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba.boot</groupId>
+            <groupId>com.alibaba.spring.boot</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>0.2.0</version>
+            <version>2.0.0</version>
         </dependency>
 
         <dependency>
@@ -188,6 +188,10 @@
             <artifactId>zkclient</artifactId>
             <version>0.9</version>
         </dependency>
+
+
+
+
     </dependencies>
 
 
