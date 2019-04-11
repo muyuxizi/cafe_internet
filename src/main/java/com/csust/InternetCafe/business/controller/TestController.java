@@ -80,7 +80,6 @@ public class TestController {
     public String register(@RequestBody Registervo registervo){
 
         logger.info(registervo);
-        logger.info("nihaoya");
         return "index.html";
     }
 
