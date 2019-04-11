@@ -1,10 +1,12 @@
 package com.csust.InternetCafe.business.controller;
 
 
+import com.csust.InternetCafe.business.vo.Registervo;
 import com.csust.InternetCafe.common.config.RabbitmqConfig;
 import com.csust.InternetCafe.common.entity.EsSurfInternetRecords;
 import com.csust.InternetCafe.common.mapper.EsSurfInternetRecordsRepository;
 import com.csust.InternetCafe.common.pojo.MsgProducer;
+import net.minidev.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.runner.RunWith;
@@ -18,11 +20,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 /**
@@ -45,17 +48,17 @@ public class TestController {
     @PostMapping
     public String login() {
         EsSurfInternetRecords esSurfInternetRecords = EsSurfInternetRecords.builder()
-                .id(5)
+                .id(6)
                 .uid(10)
                 .computerId(13)
                 .consumptionAmount(10)
                 .startTime(5000)
                 .endTime(10000)
-                .cafeName("lengjiang")
+                .cafeName("changsha")
                 .build();
         esSurfInternetRecordsRepository.save(esSurfInternetRecords);
-        msgProducer.sendMsg("这是第一条消息");
-        logger.info("第一条消息已经发送");
+        msgProducer.sendMsg("登陆请求");
+        logger.info("登陆请求已经发送");
         return "login.html";
     }
 
@@ -71,4 +74,17 @@ public class TestController {
     public String timeOut(){
         return "login.html";
     }
+
+    @RequestMapping(value = "/register")
+    @PostMapping
+    public String register(@RequestBody Registervo registervo){
+
+        logger.info(registervo);
+        logger.info("nihaoya");
+        return "index.html";
+    }
+
+
+
+
 }

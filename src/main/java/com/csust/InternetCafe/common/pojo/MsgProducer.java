@@ -33,6 +33,17 @@ public class MsgProducer implements RabbitTemplate.ConfirmCallback {
         rabbitTemplate.convertAndSend(RabbitmqConfig.EXCHANGE_A, RabbitmqConfig.ROUTINGKEY_A, content, correlationData);
     }
 
+    public void sendMsgB(String content){
+        CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
+        rabbitTemplate.convertAndSend(RabbitmqConfig.EXCHANGE_B, RabbitmqConfig.ROUTINGKEY_B, content,correlationData);
+    }
+
+    public void sendMsgC(String content){
+        CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
+        rabbitTemplate.convertAndSend(RabbitmqConfig.EXCHANGE_C, RabbitmqConfig.ROUTINGKEY_C, content,correlationData);
+    }
+
+
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String s) {
         logger.info("回调" + correlationData);
