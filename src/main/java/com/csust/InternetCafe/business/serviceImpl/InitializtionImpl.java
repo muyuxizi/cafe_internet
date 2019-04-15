@@ -41,12 +41,12 @@ public class InitializtionImpl implements Initialization {
             queryWrapper.eq("uid" , uid);
             Customers customers = customersService.selectOne(queryWrapper);
             String value = new Gson().toJson(customers);
-            redisService.set("uid" , value);
+            redisService.set(String.valueOf(uid) , value);
             logger.info("已将"+ customers.toString() +"加入到缓存");
         }
         if(identity == 2){
             EntityWrapper<Admin> queryWrapper = new  EntityWrapper<>();
-            queryWrapper.eq("uid" , uid);
+            queryWrapper.eq(String.valueOf(uid) , uid);
             Admin admin = adminService.selectOne(queryWrapper);
             String value = new Gson().toJson(admin);
             redisService.set("uid" , admin);

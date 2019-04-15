@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date: 2019-02-28 18:38
  * @Description:
  */
-@RestController
+@Controller
 public class IndexController {
     private static Logger logger = LogManager.getLogger("HelloLog4j");
 
@@ -22,4 +22,5 @@ public class IndexController {
         logger.info("hello,has permission");
         return "hello";
     }
+
 }

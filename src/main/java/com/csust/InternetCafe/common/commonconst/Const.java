@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class Const {
 
+
     public int converter(int in){
         if(in == 1) {
             return 2;

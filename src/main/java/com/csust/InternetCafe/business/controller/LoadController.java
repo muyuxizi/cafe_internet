@@ -79,6 +79,15 @@ public class LoadController {
         return "login";
     }
 
+
+    @RequestMapping("/index.html")
+    @GetMapping
+    public String yanzheng(){
+        logger.info("加载基础配置");
+        return "index";
+    }
+
+
     @RequestMapping(value = "/register")
     @PostMapping
     public String register(@RequestBody Registervo registervo){

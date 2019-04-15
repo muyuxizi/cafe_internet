@@ -3,6 +3,7 @@ package com.csust.InternetCafe.business.serviceImpl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.csust.InternetCafe.business.service.PersonalHome;
 import com.csust.InternetCafe.business.vo.PersonalHomevo;
+import com.csust.InternetCafe.common.commonconst.RedisOrSelect;
 import com.csust.InternetCafe.common.entity.Customers;
 import com.csust.InternetCafe.common.entity.Users;
 import com.csust.InternetCafe.common.service.RedisService;
@@ -25,17 +26,17 @@ public class PersonalHomeImpl implements PersonalHome {
     @Resource
     private RedisService redisService;
 
+    @Resource
+    private RedisOrSelect redisOrSelect;
+
     private static Logger logger = LogManager.getLogger("HelloLog4j");
 
     @Override
     public PersonalHomevo getinformation(String username) {
+        Users users = redisOrSelect.findUsers(username);
+        int uid = users.getUid();
 
-        String jsonString = String.valueOf(redisService.get(username));
-        Users users = new Gson().fromJson(jsonString , Users.class);
-        logger.info(users);
-        if(users == null){
-            logger.info("Redis读取缓存失败");
-        }
+
         return null;
     }
 }
