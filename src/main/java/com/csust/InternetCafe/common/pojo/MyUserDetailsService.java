@@ -1,11 +1,14 @@
 package com.csust.InternetCafe.common.pojo;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.csust.InternetCafe.business.service.Initialization;
 import com.csust.InternetCafe.common.commonconst.Const;
 import com.csust.InternetCafe.common.entity.Permission;
 import com.csust.InternetCafe.common.entity.Users;
 import com.csust.InternetCafe.common.service.PermissionService;
+import com.csust.InternetCafe.common.service.RedisService;
 import com.csust.InternetCafe.common.service.UserService;
+import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 import sun.rmi.runtime.NewThreadAction;
 
 import javax.annotation.Resource;
@@ -39,10 +43,15 @@ public class MyUserDetailsService implements UserDetailsService {
     private Const constserver;
 
     @Resource
-    private PermissionService permissionService;
-    private static Logger logger = LogManager.getLogger("HelloLog4j");
+    private RedisService redisService;
 
-    int permissions;
+    @Resource
+    private Initialization initialization;
+
+    @Resource
+    private PermissionService permissionService;
+
+    private static Logger logger = LogManager.getLogger("HelloLog4j");
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
@@ -52,15 +61,18 @@ public class MyUserDetailsService implements UserDetailsService {
         if (users == null) {
             throw new UsernameNotFoundException(username);
             }else {
-            permissions = users.getIdentityType();
+            //将用户信息加入到Redis
+            String value = new Gson().toJson(users);
+            redisService.set(username , value);
         }
 
-
+        //将用户具体信息加载到Redis
+        initialization.LoadToRedis(users.getUid() , users.getIdentityType());
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         Integer role = users.getIdentityType();
         List<Permission> list = new ArrayList<>();
         EntityWrapper<Permission> queryWrapper = new  EntityWrapper<>();
-        queryWrapper.ne("role" ,constserver.converter(permissions));
+        queryWrapper.ne("role" ,constserver.converter(role));
         list = permissionService.selectList(queryWrapper);
         for(Permission permission : list){
             authorities.add(new SimpleGrantedAuthority(permission.getCode()));

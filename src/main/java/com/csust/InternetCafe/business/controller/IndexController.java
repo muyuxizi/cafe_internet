@@ -5,13 +5,14 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Author: 小凯神
  * @Date: 2019-02-28 18:38
  * @Description:
  */
-@Controller
+@RestController
 public class IndexController {
     private static Logger logger = LogManager.getLogger("HelloLog4j");
 

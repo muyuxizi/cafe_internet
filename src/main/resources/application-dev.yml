@@ -36,7 +36,7 @@ spring:
         max-wait: 2000ms
         max-idle: 8
         min-idle: 0
-    timeout: 200s
+    timeout: 3000s
   data:
     elasticsearch:
       cluster-nodes: 127.0.0.1:9300
@@ -52,3 +52,6 @@ spring:
   jpa:
     show-sql: true
 
+  http:
+    converters:
+      preferred-json-mapper: gson
