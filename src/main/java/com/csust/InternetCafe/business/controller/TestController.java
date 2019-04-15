@@ -1,6 +1,7 @@
 package com.csust.InternetCafe.business.controller;
 
 
+import com.csust.InternetCafe.business.service.LoadAndRegister;
 import com.csust.InternetCafe.business.vo.Registervo;
 import com.csust.InternetCafe.common.config.RabbitmqConfig;
 import com.csust.InternetCafe.common.entity.EsSurfInternetRecords;
@@ -41,6 +42,9 @@ public class TestController {
     private MsgProducer msgProducer;
 
     @Resource
+    private LoadAndRegister loadAndRegister;
+
+    @Resource
     private EsSurfInternetRecordsRepository esSurfInternetRecordsRepository;
     private static Logger logger = LogManager.getLogger("HelloLog4j");
 
@@ -59,28 +63,33 @@ public class TestController {
         esSurfInternetRecordsRepository.save(esSurfInternetRecords);
         msgProducer.sendMsg("登陆请求");
         logger.info("登陆请求已经发送");
-        return "login.html";
+        return "login";
     }
 
     @RequestMapping("/error.html")
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
         logger.info("密码错误？");
-        return "login.html";
+        return "login";
     }
 
     @RequestMapping("/login/timeout")
     @GetMapping
     public String timeOut(){
-        return "login.html";
+        return "login";
     }
 
     @RequestMapping(value = "/register")
     @PostMapping
     public String register(@RequestBody Registervo registervo){
-
+        String result = loadAndRegister.Register(registervo);
         logger.info(registervo);
-        return "index.html";
+        if(result.equals("success")){
+            return "index";
+        }else{
+            logger.info(result);
+            return "result";
+        }
     }
 
 

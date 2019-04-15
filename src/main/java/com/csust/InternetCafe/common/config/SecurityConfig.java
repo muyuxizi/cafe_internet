@@ -35,7 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.authorizeRequests()
-                .antMatchers("/register", "/login.html").permitAll()
+                .antMatchers("/login.html","/login/timeout").permitAll()
+                .antMatchers(HttpMethod.POST,"/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -46,11 +47,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/index.html")
                 .and()
                 .sessionManagement()
-                .invalidSessionUrl("/login/timeout")
-                .and()
-                .csrf()
-                .ignoringAntMatchers("/register");
-
+                .invalidSessionUrl("/login/timeout");
+                //.and()
+                //.csrf()
+                //.ignoringAntMatchers("/register","/index");
+                http.csrf().disable();
     }
 
     @Override
