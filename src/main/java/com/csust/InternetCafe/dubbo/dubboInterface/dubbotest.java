@@ -1,4 +1,4 @@
-package com.csust.InternetCafe.Interface;
+package com.csust.InternetCafe.dubbo.dubboInterface;
 
 /**
  * @Author: 小凯神

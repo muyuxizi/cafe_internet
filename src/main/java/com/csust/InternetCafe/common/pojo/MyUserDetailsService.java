@@ -1,6 +1,7 @@
 package com.csust.InternetCafe.common.pojo;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.csust.InternetCafe.common.commonconst.Const;
 import com.csust.InternetCafe.common.entity.Permission;
 import com.csust.InternetCafe.common.entity.Users;
 import com.csust.InternetCafe.common.service.PermissionService;
@@ -35,8 +36,14 @@ public class MyUserDetailsService implements UserDetailsService {
     private UserService userService;
 
     @Resource
+    private Const constserver;
+
+    @Resource
     private PermissionService permissionService;
     private static Logger logger = LogManager.getLogger("HelloLog4j");
+
+    int permissions;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
         EntityWrapper<Users> newWrapper = new  EntityWrapper<>();
@@ -44,6 +51,8 @@ public class MyUserDetailsService implements UserDetailsService {
         Users users = userService.selectOne(newWrapper);
         if (users == null) {
             throw new UsernameNotFoundException(username);
+            }else {
+            permissions = users.getIdentityType();
         }
 
 
@@ -51,7 +60,7 @@ public class MyUserDetailsService implements UserDetailsService {
         Integer role = users.getIdentityType();
         List<Permission> list = new ArrayList<>();
         EntityWrapper<Permission> queryWrapper = new  EntityWrapper<>();
-        queryWrapper.ne("role" ,2);
+        queryWrapper.ne("role" ,constserver.converter(permissions));
         list = permissionService.selectList(queryWrapper);
         for(Permission permission : list){
             authorities.add(new SimpleGrantedAuthority(permission.getCode()));

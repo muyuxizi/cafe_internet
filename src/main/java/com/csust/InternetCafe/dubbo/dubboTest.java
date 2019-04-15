@@ -1,7 +1,7 @@
 package com.csust.InternetCafe.dubbo;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.csust.InternetCafe.Interface.dubbotest;
+import com.csust.InternetCafe.dubbo.dubboInterface.dubbotest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;

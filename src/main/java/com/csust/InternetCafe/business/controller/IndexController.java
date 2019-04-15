@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @Description:
  */
 @Controller
-public class TestController2 {
+public class IndexController {
     private static Logger logger = LogManager.getLogger("HelloLog4j");
 
-    @PreAuthorize("hasAnyAuthority('write')")
+    @PreAuthorize("hasAnyAuthority('read')")
     @GetMapping("/index")
     public String index(){
         logger.info("hello,has permission");
