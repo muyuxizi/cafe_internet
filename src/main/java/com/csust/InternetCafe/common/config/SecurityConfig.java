@@ -43,10 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/error.html").permitAll()
                 .and()
                 .logout()
-                .logoutSuccessUrl("/index.html")
-                .and()
-                .sessionManagement()
-                .invalidSessionUrl("/login/timeout");
+                .logoutSuccessUrl("/index.html");
+                //.and()
+              //  .sessionManagement()
+                //.invalidSessionUrl("/login/timeout");
                      //.and()
                      //.csrf()
                      //.ignoringAntMatchers("/register","/index");
