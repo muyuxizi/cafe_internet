@@ -38,5 +38,5 @@ public class RechargeRecords {
     private Integer rechargeMode;
 
     @TableId(value = "update_time")
-    private Integer updateTime;
+    private Long updateTime;
 }

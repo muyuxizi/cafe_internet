@@ -22,9 +22,9 @@ public class EsSurfInternetRecords {
 
     private  Integer uid;
 
-    private  Integer startTime;
+    private  Long startTime;
 
-    private  Integer endTime;
+    private  Long endTime;
 
     private  Integer consumptionAmount;
 

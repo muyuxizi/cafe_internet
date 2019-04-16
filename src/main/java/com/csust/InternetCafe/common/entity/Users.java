@@ -41,7 +41,7 @@ public class Users {
     private Integer identityType;
 
     @TableId(value = "last_login_time")
-    private BigInteger lastLoginTime;
+    private Long lastLoginTime;
 
     @TableId(value = "id_card")
     private String idCard;

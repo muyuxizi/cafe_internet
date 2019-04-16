@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.math.BigInteger;
+
 /**
  * @Author: 小凯神
  * @Date: 2019-02-27 9:28
@@ -35,7 +37,7 @@ public class AdminOperationRecords {
     private String operationDetails;
 
     @TableId(value = "update_time")
-    private Integer updateTime;
+    private Long updateTime;
 
     @TableId(value = "operation_reason")
     private String operationReason;

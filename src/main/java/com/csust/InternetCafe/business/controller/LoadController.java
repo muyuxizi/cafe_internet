@@ -56,8 +56,8 @@ public class LoadController {
                 .uid(10)
                 .computerId(13)
                 .consumptionAmount(10)
-                .startTime(5000)
-                .endTime(10000)
+                .startTime(Long.valueOf(5000))
+                .endTime(Long.valueOf(10000))
                 .cafeName("changsha")
                 .build();
         esSurfInternetRecordsRepository.save(esSurfInternetRecords);

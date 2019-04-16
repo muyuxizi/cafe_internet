@@ -30,10 +30,10 @@ public class SurfInternetRecords {
     private Integer uid;
 
     @TableId(value = "start_time")
-    private Integer startTime;
+    private Long startTime;
 
     @TableId(value = "end_time")
-    private Integer endTime;
+    private Long endTime;
 
     @TableId(value = "consumption_amount")
     private Integer consumptionAmount;
