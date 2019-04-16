@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
     private static Logger logger = LogManager.getLogger("HelloLog4j");
 
-    @PreAuthorize("hasAnyAuthority('read')")
+    @PreAuthorize("hasAnyAuthority('read_index')")
     @GetMapping("/index")
     public String index(){
         logger.info("hello,has permission");
-        return "hello";
+        return "index";
     }
+
+
 
 }

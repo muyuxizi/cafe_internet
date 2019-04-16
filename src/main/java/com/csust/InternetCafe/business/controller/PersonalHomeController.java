@@ -1,8 +1,10 @@
 package com.csust.InternetCafe.business.controller;
 
 import com.csust.InternetCafe.business.serviceImpl.PersonalHomeImpl;
+import com.csust.InternetCafe.business.vo.PersonalHomevo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +26,13 @@ public class PersonalHomeController {
 
     private static Logger logger = LogManager.getLogger("HelloLog4j");
 
+    @PreAuthorize("hasAnyAuthority('customers_read')")
     @RequestMapping(value = "/index/information")
     @GetMapping
-    public String getinformation(Authentication authentication){
+    public PersonalHomevo getinformation(Authentication authentication){
 
             logger.info(authentication.getName());
-            personalHome.getinformation(authentication.getName());
-            return "nihao";
-
+            PersonalHomevo personalHomevo = personalHome.getinformation(authentication.getName());
+            return personalHomevo;
     }
 }

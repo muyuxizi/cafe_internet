@@ -35,8 +35,16 @@ public class PersonalHomeImpl implements PersonalHome {
     public PersonalHomevo getinformation(String username) {
         Users users = redisOrSelect.findUsers(username);
         int uid = users.getUid();
+        Customers customers = redisOrSelect.findCustomers(uid);
+        PersonalHomevo personalHomevo = PersonalHomevo.builder()
+                .accountMoney(customers.getAccountMoney())
+                .birthday(users.getBirthday())
+                .isAppointment(customers.getIsAppointment())
+                .isUsed(customers.getIsUsed())
+                .telephoneNumber(String.valueOf(users.getTelephoneNumber()))
+                .username(username)
+                .build();
 
-
-        return null;
+        return personalHomevo;
     }
 }

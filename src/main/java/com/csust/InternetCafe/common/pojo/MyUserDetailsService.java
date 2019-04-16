@@ -64,6 +64,7 @@ public class MyUserDetailsService implements UserDetailsService {
             //将用户信息加入到Redis
             String value = new Gson().toJson(users);
             redisService.set(username , value);
+            logger.info("已将" + users.toString() + "加入到缓存");
         }
 
         //将用户具体信息加载到Redis
