@@ -1,19 +1,21 @@
 package com.csust.InternetCafe.common.commonconst;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.csust.InternetCafe.business.service.Initialization;
 import com.csust.InternetCafe.common.entity.Admin;
+import com.csust.InternetCafe.common.entity.Computers;
 import com.csust.InternetCafe.common.entity.Customers;
 import com.csust.InternetCafe.common.entity.Users;
-import com.csust.InternetCafe.common.service.AdminService;
-import com.csust.InternetCafe.common.service.CustomersService;
-import com.csust.InternetCafe.common.service.RedisService;
-import com.csust.InternetCafe.common.service.UserService;
+import com.csust.InternetCafe.common.service.*;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: 小凯神
@@ -31,6 +33,12 @@ public class RedisOrSelect {
 
     @Resource
     private CustomersService customersService;
+
+    @Resource
+    private ComputersService computersService;
+
+    @Resource
+    private Initialization initialization;
 
     @Resource
     private AdminService adminService;
@@ -83,6 +91,19 @@ public class RedisOrSelect {
             logger.info("已将"+ admin.toString() + "加入到Redis");
         }
         return  admin;
+    }
+
+    public Computers findComputers(int computerId){
+        Computers computers = null;
+        Map<String, Object> map = redisService.hmget(Const.Redis_Computer);
+        if(map.size() == 0){
+            //如果Redis中不存在,那么去数据库中查找并写入redis
+            initialization.LoadComputersToRedis();
+        }
+        map = redisService.hmget(Const.Redis_Computer);
+        computers = (Computers) map.get(String.valueOf(computerId));
+        logger.info(map);
+        return computers;
     }
 
 

@@ -14,12 +14,16 @@ public class Const {
 
     private static Logger logger = LogManager.getLogger("HelloLog4j");
 
-    public static  final int Money_QIAN = 1000;
-    public static  final int Money_BAI = 100;
-    public static  final int Money_SHI = 10;
-    public static  final int Give_Money_QIAN = 2000;
-    public static  final int Give_Money_Bai = 100;
-    public static  final int Give_Money_SHI = 5;
+    public static final int Money_QIAN = 1000;
+    public static final int Money_BAI = 100;
+    public static final int Money_SHI = 10;
+    public static final int Give_Money_QIAN = 2000;
+    public static final int Give_Money_Bai = 100;
+    public static final int Give_Money_SHI = 5;
+    public static final int Computer_Is_Normal = 1;
+    public static final int Computer_Is_Fault = 2;
+
+    public static final String Redis_Computer = "redis_computer";
 
     public int moneyConverter(int money){
         int add = 0;

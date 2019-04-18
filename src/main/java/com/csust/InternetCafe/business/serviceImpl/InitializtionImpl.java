@@ -2,10 +2,13 @@ package com.csust.InternetCafe.business.serviceImpl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.csust.InternetCafe.business.service.Initialization;
+import com.csust.InternetCafe.common.commonconst.Const;
 import com.csust.InternetCafe.common.entity.Admin;
+import com.csust.InternetCafe.common.entity.Computers;
 import com.csust.InternetCafe.common.entity.Customers;
 import com.csust.InternetCafe.common.entity.Users;
 import com.csust.InternetCafe.common.service.AdminService;
+import com.csust.InternetCafe.common.service.ComputersService;
 import com.csust.InternetCafe.common.service.CustomersService;
 import com.csust.InternetCafe.common.service.RedisService;
 import com.google.gson.Gson;
@@ -14,6 +17,12 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * @Author: 小凯神
@@ -28,6 +37,9 @@ public class InitializtionImpl implements Initialization {
 
     @Resource
     private CustomersService customersService;
+
+    @Resource
+    private ComputersService computersService;
 
     @Resource
     private AdminService adminService;
@@ -52,5 +64,20 @@ public class InitializtionImpl implements Initialization {
             redisService.set("uid" , admin);
             logger.info("已将" + admin.toString() +"加入到缓存");
         }
+    }
+
+    @Override
+    public void LoadComputersToRedis() {
+        Map<String , Object> hashMap = new HashMap<>();
+        List<Computers> linkedList = new LinkedList<>();
+        EntityWrapper<Computers> entityWrapper = new EntityWrapper<>();
+        entityWrapper.eq("is_damaged", Const.Computer_Is_Normal);
+        linkedList = computersService.selectList(entityWrapper);
+        for (Computers computers : linkedList){
+            hashMap.put(String.valueOf(computers.getComputerId()) , computers);
+        }
+        //hashMap = linkedList.stream().collect(Collectors.toMap(Computers::getComputerId , computers -> computers));
+        redisService.hmset(Const.Redis_Computer,hashMap);
+        logger.info("已经将"+linkedList.size()+"加入到了redis中");
     }
 }

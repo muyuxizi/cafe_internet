@@ -7,4 +7,6 @@ package com.csust.InternetCafe.business.service;
  */
 public interface Initialization {
     public void LoadToRedis(int uid , int identity);
+
+    public void LoadComputersToRedis();
 }

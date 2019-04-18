@@ -1,15 +1,14 @@
 package com.csust.InternetCafe.business.controller;
 
 import com.csust.InternetCafe.business.service.Recharge;
+import com.csust.InternetCafe.business.vo.Appointmentvo;
+import com.csust.InternetCafe.common.commonconst.RedisOrSelect;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class IndexController {
     private static Logger logger = LogManager.getLogger("HelloLog4j");
+
+    @Resource
+    private RedisOrSelect redisOrSelect;
 
     @Resource
     private Recharge recharge;
@@ -40,6 +42,14 @@ public class IndexController {
     public String recharge(Authentication authentication , HttpServletRequest request){
         String message = recharge.recharge(authentication.getName() , Integer.valueOf(request.getParameter("money")));
         logger.info(message);
+        return "index";
+    }
+
+    @PreAuthorize("hasAnyAuthority('appointment')")
+    @RequestMapping(value = "/appointment,action")
+    @GetMapping
+    public String appointment(/*@RequestBody Appointmentvo appointmentvo*/){
+        redisOrSelect.findComputers(1);
         return "index";
     }
 
