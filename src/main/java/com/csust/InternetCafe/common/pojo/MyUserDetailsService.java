@@ -63,7 +63,7 @@ public class MyUserDetailsService implements UserDetailsService {
             }else {
             //将用户信息加入到Redis
             String value = new Gson().toJson(users);
-            redisService.set(username , value);
+            redisService.set(Const.Redis_User+username , value);
             logger.info("已将" + users.toString() + "加入到缓存");
         }
 

@@ -48,20 +48,20 @@ public class InitializtionImpl implements Initialization {
 
     @Override
     public void LoadToRedis(int uid, int identity) {
-        if(identity == 1){
+        if(identity == Const.Customers_Identity){
             EntityWrapper<Customers> queryWrapper = new  EntityWrapper<>();
             queryWrapper.eq("uid" , uid);
             Customers customers = customersService.selectOne(queryWrapper);
             String value = new Gson().toJson(customers);
-            redisService.set(String.valueOf(uid) , value);
+            redisService.set(Const.Redis_Customers+String.valueOf(uid) , value);
             logger.info("已将"+ customers.toString() +"加入到缓存");
         }
-        if(identity == 2){
+        if(identity == Const.Admin_Identity){
             EntityWrapper<Admin> queryWrapper = new  EntityWrapper<>();
             queryWrapper.eq(String.valueOf(uid) , uid);
             Admin admin = adminService.selectOne(queryWrapper);
             String value = new Gson().toJson(admin);
-            redisService.set("uid" , admin);
+            redisService.set(Const.Redis_Admin+String.valueOf(uid) , admin);
             logger.info("已将" + admin.toString() +"加入到缓存");
         }
     }

@@ -1,5 +1,6 @@
 package com.csust.InternetCafe.common.commonconst;
 
+import com.csust.InternetCafe.common.entity.Customers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,18 @@ public class Const {
     public static final int Computer_Is_Normal = 1;
     public static final int Computer_Is_Fault = 2;
 
+    public static final String Redis_User = "redis_user";
     public static final String Redis_Computer = "redis_computer";
+    public static final int Customers_Identity = 1;
+    public static final int Admin_Identity = 2;
+    public static final String Redis_Customers = "redis_customers";
+    public static final String Redis_Admin = "redis_admin";
+
+    public static final String Is_Not_Appointment = "no";
+    public static final String Is_Appointment = "yes";
+    public static final String Is_Not_Used = "no";
+    public static final String Is_Used = "yes";
+
 
     public int moneyConverter(int money){
         int add = 0;

@@ -8,5 +8,5 @@ import com.csust.InternetCafe.business.vo.Appointmentvo;
  * @Description:
  */
 public interface Appointment {
-    public String appointmentComputer(Integer uid ,Appointmentvo appointmentvo);
+    public String appointmentComputer(String username ,Appointmentvo appointmentvo);
 }

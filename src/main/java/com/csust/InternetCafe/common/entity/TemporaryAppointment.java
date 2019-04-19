@@ -33,10 +33,10 @@ public class TemporaryAppointment {
     private String cafeName;
 
     @TableId(value = "appointment_start_time")
-    private Long appointmentStartTime;
+    private Integer appointmentStartTime;
 
     @TableId(value = "appointment_end_time")
-    private Long appointmentEndTime;
+    private Integer appointmentEndTime;
 
     @TableId(value = "amount")
     private Integer amount;

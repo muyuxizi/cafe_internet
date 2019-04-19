@@ -57,8 +57,8 @@ public class LoadAndRegisterImpl implements LoadAndRegister {
 
         //手机号码重复验证
         EntityWrapper<Users> queryWrapper1 = new  EntityWrapper<>();
-        queryWrapper.eq("telephone_number" , registervo.getPassWord());
-        Users users2 = userService.selectOne(queryWrapper);
+        queryWrapper1.eq("telephone_number" , registervo.getPassWord());
+        Users users2 = userService.selectOne(queryWrapper1);
         if(users2 != null){
             return "对不起，该手机号已经注册过了";
         }

@@ -60,7 +60,7 @@ public class LoadController {
                 .endTime(Long.valueOf(10000))
                 .cafeName("changsha")
                 .build();
-        esSurfInternetRecordsRepository.save(esSurfInternetRecords);
+       // esSurfInternetRecordsRepository.save(esSurfInternetRecords);
         msgProducer.sendMsg("登陆请求");
         logger.info("登陆请求已经发送");
         return "login";

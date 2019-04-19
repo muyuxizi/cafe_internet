@@ -63,7 +63,7 @@ public class RedisOrSelect {
 
     public Customers findCustomers(int uid){
         Customers customers = null;
-        String jsonString = String.valueOf(redisService.get(String.valueOf(uid)));
+        String jsonString = String.valueOf(redisService.get(Const.Redis_Customers+String.valueOf(uid)));
         customers = new Gson().fromJson(jsonString , Customers.class);
         if(customers == null){
             //如果Redis中不存在，那么从数据库中获取并且写入Redis
@@ -71,7 +71,7 @@ public class RedisOrSelect {
             newWrapper.eq("uid" , uid);
             customers = customersService.selectOne(newWrapper);
             String value = new Gson().toJson(customers);
-            redisService.set(String.valueOf(uid) , value);
+            redisService.set(Const.Redis_Customers+String.valueOf(uid) , value);
             logger.info("已将"+ customers.toString() + "加入到Redis");
         }
         return  customers;
@@ -79,7 +79,7 @@ public class RedisOrSelect {
 
     public Admin findadmins(int uid){
         Admin admin = null;
-        String jsonString = String.valueOf(redisService.get(String.valueOf(uid)));
+        String jsonString = String.valueOf(redisService.get(Const.Redis_Admin+String.valueOf(uid)));
         admin = new Gson().fromJson(jsonString , Admin.class);
         if(admin == null){
             //如果Redis中不存在，那么从数据库中获取并且写入Redis
@@ -87,7 +87,7 @@ public class RedisOrSelect {
             newWrapper.eq("uid" , uid);
             admin = adminService.selectOne(newWrapper);
             String value = new Gson().toJson(admin);
-            redisService.set(String.valueOf(uid) , value);
+            redisService.set(Const.Redis_Admin+String.valueOf(uid) , value);
             logger.info("已将"+ admin.toString() + "加入到Redis");
         }
         return  admin;

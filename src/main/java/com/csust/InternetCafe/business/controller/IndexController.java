@@ -1,5 +1,6 @@
 package com.csust.InternetCafe.business.controller;
 
+import com.csust.InternetCafe.business.service.Appointment;
 import com.csust.InternetCafe.business.service.Recharge;
 import com.csust.InternetCafe.business.vo.Appointmentvo;
 import com.csust.InternetCafe.common.commonconst.RedisOrSelect;
@@ -28,6 +29,9 @@ public class IndexController {
     @Resource
     private Recharge recharge;
 
+    @Resource
+    private Appointment appointment;
+
     @PreAuthorize("hasAnyAuthority('read_index')")
     @GetMapping("/index")
     public String index(){
@@ -47,9 +51,10 @@ public class IndexController {
 
     @PreAuthorize("hasAnyAuthority('appointment')")
     @RequestMapping(value = "/appointment,action")
-    @GetMapping
-    public String appointment(/*@RequestBody Appointmentvo appointmentvo*/){
-        redisOrSelect.findComputers(1);
+    @PostMapping
+    public String appointment(Authentication authentication ,@RequestBody Appointmentvo appointmentvo){
+        String message = appointment.appointmentComputer(authentication.getName() , appointmentvo);
+        logger.info(message);
         return "index";
     }
 
