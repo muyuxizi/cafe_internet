@@ -18,6 +18,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
 
 /**
  * @Author: 小凯神
@@ -41,6 +42,14 @@ public class LoadAndRegisterImpl implements LoadAndRegister {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String  Register(Registervo registervo) {
+
+        int birthdayyear = Integer.valueOf(registervo.getBirthday().substring(0 , 3));
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        if((year-birthdayyear)<18){
+            return "Sorry!您还未成年！暂时不可以上网!";
+        }
+
 
         int i = registervo.getPassWord().matches(".*\\d+.*") ? 1 : 0;
         int j = registervo.getPassWord().matches(".*[a-zA-Z]+.*") ? 1 : 0;

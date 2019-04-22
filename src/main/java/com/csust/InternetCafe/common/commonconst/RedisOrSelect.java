@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -104,6 +105,16 @@ public class RedisOrSelect {
         computers = (Computers) map.get(String.valueOf(computerId));
         logger.info(map);
         return computers;
+    }
+
+    public Map<String , Object> findComputers(){
+        Map<String, Object> map = redisService.hmget(Const.Redis_Computer);
+        if(map.size() == 0){
+            //如果Redis中不存在,那么去数据库中查找并写入redis
+            initialization.LoadComputersToRedis();
+        }
+        map = redisService.hmget(Const.Redis_Computer);
+        return map;
     }
 
 
