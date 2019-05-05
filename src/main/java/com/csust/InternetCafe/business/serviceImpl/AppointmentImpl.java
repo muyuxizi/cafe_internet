@@ -14,6 +14,8 @@ import com.csust.InternetCafe.common.service.CustomersService;
 import com.csust.InternetCafe.common.service.TemporaryAppointmentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: 小凯神
@@ -43,6 +46,9 @@ public class AppointmentImpl implements Appointment {
     private RedisOrSelect redisOrSelect;
 
     @Resource
+    private RedissonClient redissonClient;
+
+    @Resource
     private UpdateRedis updateRedis;
 
     private static Logger logger = LogManager.getLogger("HelloLog4j");
@@ -58,6 +64,9 @@ public class AppointmentImpl implements Appointment {
         Computers computers = redisOrSelect.findComputers(appointmentvo.getComputerId());
 
         Customers customers = redisOrSelect.findCustomers(uid);
+
+        //验证吸烟区是否正确
+        if(!appointmentvo.getIsSmoking().equals(computers.getIsSomking())){return "Sorry,该吸烟区不符合要求";}
 
         //验证两个数据是否合理
         if(appointmentvo.getStartTime()>23 || appointmentvo.getStartTime() <8 || appointmentvo.getEndTime() >23 || appointmentvo.getEndTime() < 9)
@@ -87,7 +96,8 @@ public class AppointmentImpl implements Appointment {
         if(computers.getIsAppointment().equals(Const.Is_Appointment)){
             List<TemporaryAppointment> temporaryAppointmentList = new ArrayList<>();
             EntityWrapper<TemporaryAppointment> entityWrapper = new EntityWrapper<>();
-            entityWrapper.eq("computer_id" , appointmentvo.getComputerId());
+            entityWrapper.eq("computer_id" , appointmentvo.getComputerId())
+                    .eq("cafe_name" , appointmentvo.getCafeName());
             temporaryAppointmentList = temporaryAppointmentService.selectList(entityWrapper);
             for (TemporaryAppointment temporaryAppointment : temporaryAppointmentList){
                 if ((appointmentvo.getStartTime() >= temporaryAppointment.getAppointmentEndTime()+1 )||
@@ -115,17 +125,31 @@ public class AppointmentImpl implements Appointment {
             computers.setIsAppointment(Const.Is_Appointment);
         }
 
+        RLock rLock = redissonClient.getFairLock("redission" + appointmentvo.getComputerId());
         try {
-            temporaryAppointmentService.insert(temporaryAppointment);
-            customersService.updateById(customers);
-            computersService.updateById(computers);
-        }catch (Exception e){
-            logger.error(e.getMessage()+"");
-            throw e;
+            boolean res = rLock.tryLock(5, 10 , TimeUnit.SECONDS);
+                if(res) {
+                    try {
+                        temporaryAppointmentService.insert(temporaryAppointment);
+                        customersService.updateById(customers);
+                        computersService.updateById(computers);
+                    } catch (Exception e) {
+                        logger.error(e.getMessage() + "");
+                        throw e;
+                    }
+                    updateRedis.UpdateCustomers(uid, customers);
+                    updateRedis.UpdateComputers(appointmentvo.getComputerId(), computers);
+                }
+                else {
+                    return  "Sorry!别人比您先一步哦！";
+                }
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }finally {
+            rLock.unlock();
         }
 
-        updateRedis.UpdateCustomers(uid , customers);
-        updateRedis.UpdateComputers(appointmentvo.getComputerId() , computers);
+
 
         return "success";
     }

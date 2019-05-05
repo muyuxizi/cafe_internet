@@ -24,5 +24,7 @@ public class Appointmentvo {
 
     private Integer endTime;
 
+    private Integer isSmoking;
 
+    private String cafeName;
 }

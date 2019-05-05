@@ -5,6 +5,11 @@ server:
       timeout: 3000s
 
 spring:
+  thymeleaf:
+    cache: false
+    mode: HTML5
+  mvc:
+    static-path-pattern: /static/**
   dubbo:
       application:
         name: provider
