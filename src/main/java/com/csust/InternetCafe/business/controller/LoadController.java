@@ -21,7 +21,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServlet;
@@ -88,19 +90,11 @@ public class LoadController {
     }
 
 
-    @RequestMapping(value = "/register")
+   @RequestMapping(value = "/register.action")
     @PostMapping
-    public String register(@RequestBody Registervo registervo){
-        String result = loadAndRegister.Register(registervo);
-        logger.info(registervo);
-        if(result.equals("success")){
-            return "index";
-        }else{
-            logger.info(result);
-            return "result";
-        }
+    public String toRegister(){
+        return "register";
     }
-
 
 
 

@@ -70,8 +70,9 @@
                             </div>
                             <button type="submit" class="btn">登陆</button>
                         </form>
-                        <input type="button" value="注册"
-                               onclick="javascrtpt:window.location.href='https:localhost:8080/register.html'">
+                        <form role="form" th:action="register.action" method="post" class="login-form">
+                     <button type="submit" class="btn">注册</button>
+                        </form>
                         <p th:if="${loginError}" class="error">用户名或密码错误</p>
                     </div>
             </div>
@@ -106,7 +107,7 @@
 <script th:src="@{/static/login/js/scripts.js}" type="text/javascript"></script>
 <script th:src="@{/static/login/js/placeholder.js}"></script>
 <!--[if lt IE 10]>
-<script th:src="@{/static/assets/js/placeholder.js}"></script>
+<script th:src="@{/static/login/js/placeholder.js}"></script>
 <![endif]-->
 
 </body>

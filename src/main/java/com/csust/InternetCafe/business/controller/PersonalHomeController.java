@@ -1,16 +1,19 @@
 package com.csust.InternetCafe.business.controller;
 
+import com.csust.InternetCafe.business.service.LoadAndRegister;
 import com.csust.InternetCafe.business.serviceImpl.PersonalHomeImpl;
 import com.csust.InternetCafe.business.vo.PersonalHomevo;
+import com.csust.InternetCafe.business.vo.Registervo;
+import net.minidev.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.net.Authenticator;
 
 /**
@@ -24,6 +27,10 @@ public class PersonalHomeController {
     @Resource
     private PersonalHomeImpl personalHome;
 
+    @Resource
+    private LoadAndRegister loadAndRegister;
+
+
     private static Logger logger = LogManager.getLogger("HelloLog4j");
 
     @PreAuthorize("hasAnyAuthority('customers_read')")
@@ -34,5 +41,18 @@ public class PersonalHomeController {
             logger.info(authentication.getName());
             PersonalHomevo personalHomevo = personalHome.getinformation(authentication.getName());
             return personalHomevo;
+    }
+
+    @RequestMapping(value = "/register.html")
+    @PostMapping
+    public String register(@RequestBody Registervo registervo , HttpServletResponse httpServletResponse){
+        String result = loadAndRegister.Register(registervo);
+        if(result.equals("success")){
+
+            return "success";
+        }
+        logger.info(registervo);
+        logger.info(result);
+        return result;
     }
 }

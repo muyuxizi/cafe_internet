@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>管理员首页</title>
+
+    <link th:href="@{/static/admins/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/static/admins/font-awesome/css/font-awesome.css}" rel="stylesheet">
+
+    <link th:href="@{/static/admins/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/static/admins/css/style.css}" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="block m-t-xs font-bold">HGD</span>
+                            <span class="text-muted text-xs block">菜单 <b class="caret"></b></span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a class="dropdown-item" href="login.html">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="logo-element">
+                        HGD
+                    </div>
+                </li>
+                <li class="active">
+                    <a href="admin.html"><i class="fa fa-home"></i> <span class="nav-label">欢迎页</span></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-shopping-cart"></i> <span class="nav-label">查询入口</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a th:href="@{/appointment_list.html}">Appointment list</a></li>
+                        <li><a th:href="@{/admin/surf_record_list.html}">Surf_record list</a></li>
+                        <li><a th:href="@{/admin/temporary_appointment_list.html}">Temporary appointment list</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">App Views</span>  <span class="float-right label label-primary">SPECIAL</span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="ecommerce_product.html">Product edit</a></li>
+                        <li><a href="ecommerce_product_detail.html">Product detail</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                    <form role="search" class="navbar-form-custom" method="post" action="#">
+                        <div class="form-group">
+                            <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                        </div>
+                    </form>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-sign-out"></i> Log out
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center m-t-lg">
+                        <h1>
+                            欢迎进入Cloth_Renting管理台.
+                        </h1>
+                        <small>
+                            请点击左侧菜单来进行操作。
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                管理台
+            </div>
+            <div>
+                <strong>Copyright</strong> XXX Company &copy; 2014-2019
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script th:src="@{/static/admins/js/jquery-3.1.1.min.js}"></script>
+<script th:src="@{/static/admins/js/popper.min.js}"></script>
+<script th:src="@{/static/admins/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/admins/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/static/admins/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/static/admins/js/inspinia.js}"></script>
+<script th:src="@{/static/admins/js/plugins/pace/pace.min.js}"></script>
+
+
+</body>
+
+</html>

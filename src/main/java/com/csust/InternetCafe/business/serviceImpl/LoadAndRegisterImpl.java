@@ -86,20 +86,20 @@ public class LoadAndRegisterImpl implements LoadAndRegister {
         Users users = Users.builder()
                 .id(0)
                 .lastLoginTime(null)
-                .uid(Integer.valueOf(registervo.getIdCard()))
+                .uid(Integer.valueOf(registervo.getTelephone()))
                 .birthday(registervo.getBirthday())
                 .username(registervo.getUserName())
                 .password( new BCryptPasswordEncoder().encode(registervo.getPassWord()))
                 .idCard(registervo.getIdCard())
-                .identityType(registervo.getIdentityType())
+                .identityType(1)
                 .telephoneNumber(registervo.getTelephone())
                 .build();
-        if(registervo.getIdentityType()==1){
+        if(users.getIdentityType()==1){
 
             Customers customers = Customers.builder()
                     .id(0)
                     .accountMoney(0)
-                    .uid(Integer.valueOf(registervo.getIdCard()))
+                    .uid(Integer.valueOf(registervo.getTelephone()))
                     .isAppointment("no")
                     .isUsed("no")
                     .build();

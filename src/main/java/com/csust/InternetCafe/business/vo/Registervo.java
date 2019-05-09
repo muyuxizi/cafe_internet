@@ -26,8 +26,6 @@ public class Registervo {
 
         private Integer telephone;
 
-        private Integer identityType;
-
         private String idCard;
 
         private String birthday;

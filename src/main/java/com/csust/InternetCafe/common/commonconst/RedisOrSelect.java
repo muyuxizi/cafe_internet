@@ -62,6 +62,14 @@ public class RedisOrSelect {
         return  users;
     }
 
+    public Users findUsers(int uid){
+        Users users = null;
+        EntityWrapper<Users> newWrapper = new  EntityWrapper<>();
+        newWrapper.eq("uid" , uid);
+        users = userService.selectOne(newWrapper);
+        return  users;
+    }
+
     public Customers findCustomers(int uid){
         Customers customers = null;
         String jsonString = String.valueOf(redisService.get(Const.Redis_Customers+String.valueOf(uid)));
