@@ -53,23 +53,24 @@ public class ActivationImpl implements Activation {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String activation(String username, int computerid) {
+    public String activation(String username, int computerId) {
 
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
 
         int uid = redisOrSelect.findUsers(username).getUid();
 
-        Computers computers = redisOrSelect.findComputers(computerid);
+        Computers computers = redisOrSelect.findComputers(computerId);
 
         Customers customers = redisOrSelect.findCustomers(uid);
 
         String message = "";
 
-
+        //验证输入的机器号是否正确
+        if(computers == null){return "请输入正确的机器号";}
 
         //验证机器是否在使用
-        if(computers.getIsUsed().equals(Const.Is_Used)){return "Sorry!该机器正在被使用";}
+        if(customers.getIsUsed().equals(Const.Is_Not_Used) && computers.getIsUsed().equals(Const.Is_Used)){return "Sorry!该机器正在被使用";}
 
         //判断用户当前是否预约
         if(customers.getIsUsed().equals(Const.Is_Not_Used) && customers.getIsAppointment().equals(Const.Is_Appointment)){
@@ -78,19 +79,19 @@ public class ActivationImpl implements Activation {
             entityWrapper.eq("uid" , customers.getUid());
             temporaryAppointment = temporaryAppointmentService.selectOne(entityWrapper);
             if(hour >= temporaryAppointment.getAppointmentStartTime() && hour <= temporaryAppointment.getAppointmentEndTime() ){
-                if(computerid == temporaryAppointment.getComputerId()){
+                if(computerId == temporaryAppointment.getComputerId()){
 
                     computers.setIsAppointment(Const.Is_Not_Appointment);
                     customers.setIsAppointment(Const.Is_Not_Appointment);
-                   insertToSurf(computers , customers , uid ,computerid);
+                   insertToSurf(computers , customers , uid ,computerId);
 
                     return "success";
                 } else {
-                    return "Sorry! , 请到已预约的机器"+computerid+"号上网！";
+                    return "Sorry! , 请到已预约的机器"+computerId+"号上网！";
                 }
             }
             if(hour < temporaryAppointment.getAppointmentStartTime()){
-                message = "success! 请注意，"+temporaryAppointment.getAppointmentStartTime()+"点请换到"+computerid+"号机上网";
+                message = "success! 请注意，"+temporaryAppointment.getAppointmentStartTime()+"点请换到"+computerId+"号机上网";
             }
         }
 
@@ -98,7 +99,7 @@ public class ActivationImpl implements Activation {
         // 用户占用未预约的机器
         if(customers.getIsUsed().equals(Const.Is_Not_Used) && computers.getIsAppointment().equals(Const.Is_Not_Appointment))
         {
-            insertToSurf(computers , customers , uid ,computerid);
+            insertToSurf(computers , customers , uid ,computerId);
             return "success!" + message;
         }
 
@@ -108,7 +109,7 @@ public class ActivationImpl implements Activation {
             int distance = 16;
             List<TemporaryAppointment> temporaryAppointmentList = new ArrayList<>();
             EntityWrapper<TemporaryAppointment> entityWrapper = new EntityWrapper<>();
-            entityWrapper.eq("computer_id" , computerid);
+            entityWrapper.eq("computer_id" , computerId);
             temporaryAppointmentList = temporaryAppointmentService.selectList(entityWrapper);
             for (TemporaryAppointment temporaryAppointment : temporaryAppointmentList){
                 if(hour >= temporaryAppointment.getAppointmentStartTime() && hour <= temporaryAppointment.getAppointmentEndTime()){
@@ -121,10 +122,10 @@ public class ActivationImpl implements Activation {
                 }
             }
             if(distance != 16){
-                insertToSurf(computers , customers , uid ,computerid);
+                insertToSurf(computers , customers , uid ,computerId);
                 return "success,请注意，该机器" +  (hour+distance) + "点有用户预约！" + message;
             }else {
-                insertToSurf(computers , customers , uid ,computerid);
+                insertToSurf(computers , customers , uid ,computerId);
                 return "success" + message;
             }
         }
@@ -137,8 +138,8 @@ public class ActivationImpl implements Activation {
         if(customers.getIsUsed().equals(Const.Is_Used)){
             SurfInternetRecords surfInternetRecords = new SurfInternetRecords();
             EntityWrapper<SurfInternetRecords> entityWrapper = new EntityWrapper<>();
-            entityWrapper.eq("computer_id" , computerid)
-            .eq("amount",0)
+            entityWrapper.eq("computer_id" , computerId)
+            .eq("consumption_amount",0)
             .eq("uid",uid);
             surfInternetRecords = surfInternetRecordsService.selectOne(entityWrapper);
             long minute = System.currentTimeMillis()/60000 - surfInternetRecords.getStartTime()/60000;
@@ -157,7 +158,8 @@ public class ActivationImpl implements Activation {
                 throw e;
             }
             updateRedis.UpdateCustomers(uid, customers);
-            updateRedis.UpdateComputers(computerid , computers);
+            updateRedis.UpdateComputers(computerId , computers);
+            return "success";
         }
 
         return "";
@@ -178,6 +180,7 @@ public class ActivationImpl implements Activation {
         updateRedis.UpdateCustomers(uid, customers);
         updateRedis.UpdateComputers(computerid , computers);
         SurfInternetRecords surfInternetRecords = SurfInternetRecords.builder()
+                .id(0)
                 .cafeName(computers.getCafeName())
                 .computerId(computerid)
                 .consumptionAmount(0)

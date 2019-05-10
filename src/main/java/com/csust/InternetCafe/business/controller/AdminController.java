@@ -30,4 +30,10 @@ public class AdminController {
     public String temporary(){
         return "admin/temporary_appointment_list";
     }
+
+    @RequestMapping("/admin/appointment_list.html")
+    @GetMapping
+    public String appointment(){
+        return "admin/appointment_list";
+    }
 }

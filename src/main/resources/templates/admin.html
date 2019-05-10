@@ -26,7 +26,7 @@
                 <li class="nav-header">
                     <div class="dropdown profile-element">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="block m-t-xs font-bold">HGD</span>
+                            <span class="block m-t-xs font-bold">LKF</span>
                             <span class="text-muted text-xs block">菜单 <b class="caret"></b></span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -43,9 +43,10 @@
                 <li>
                     <a href="#"><i class="fa fa-shopping-cart"></i> <span class="nav-label">查询入口</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a th:href="@{/appointment_list.html}">Appointment list</a></li>
-                        <li><a th:href="@{/admin/surf_record_list.html}">Surf_record list</a></li>
-                        <li><a th:href="@{/admin/temporary_appointment_list.html}">Temporary appointment list</a></li>
+                        <li><a th:href="@{/admin/appointment_list.html}">历史记录表</a></li>
+                        <li><a th:href="@{/admin/temporary_appointment_list.html}">临时预约表</a></li>
+                        <li><a th:href="@{/admin/surf_record_list.html}">今日上网记录表</a></li>
+                        <li><a th:href="@{'http://localhost:9100'}">历史上网记录表</a></li>
                     </ul>
                 </li>
                 <li>
@@ -86,7 +87,7 @@
                 <div class="col-lg-12">
                     <div class="text-center m-t-lg">
                         <h1>
-                            欢迎进入Cloth_Renting管理台.
+                            欢迎进入Cafe_Internet管理台.
                         </h1>
                         <small>
                             请点击左侧菜单来进行操作。
@@ -103,7 +104,14 @@
                 <strong>Copyright</strong> XXX Company &copy; 2014-2019
             </div>
         </div>
-
+        <div class="footer">
+            <div class="float-right">
+                欢迎来到<strong>xxx</strong> 网咖.
+            </div>
+            <div>
+                <strong>制作</strong>Lkf &copy; 2014-2019
+            </div>
+        </div>
     </div>
 </div>
 

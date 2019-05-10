@@ -43,16 +43,5 @@ public class PersonalHomeController {
             return personalHomevo;
     }
 
-    @RequestMapping(value = "/register.html")
-    @PostMapping
-    public String register(@RequestBody Registervo registervo , HttpServletResponse httpServletResponse){
-        String result = loadAndRegister.Register(registervo);
-        if(result.equals("success")){
 
-            return "success";
-        }
-        logger.info(registervo);
-        logger.info(result);
-        return result;
-    }
 }

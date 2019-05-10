@@ -22,6 +22,8 @@ public class EsSurfInternetRecords {
 
     private  Integer uid;
 
+    private  String username;
+
     private  Long startTime;
 
     private  Long endTime;

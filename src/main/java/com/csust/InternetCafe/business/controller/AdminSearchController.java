@@ -1,7 +1,10 @@
 package com.csust.InternetCafe.business.controller;
 
 import com.csust.InternetCafe.business.service.AdminSearch;
+import com.csust.InternetCafe.business.vo.Appointmentoutvo;
 import com.csust.InternetCafe.business.vo.TemporaryAppointmentvo;
+import com.csust.InternetCafe.common.entity.Appointment;
+import com.csust.InternetCafe.common.entity.SurfInternetRecords;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,5 +36,20 @@ public class AdminSearchController {
         List<TemporaryAppointmentvo> temporaryAppointmentvoList = new ArrayList<>();
         temporaryAppointmentvoList = adminSearch.temporaryAppointmetList();
         return temporaryAppointmentvoList;
+    }
+
+    @RequestMapping(value = "/surf_record.action")
+    @GetMapping
+    public List<SurfInternetRecords> surfInternetRecordvos(){
+        List<SurfInternetRecords> surfInternetRecords = new ArrayList<>();
+        return surfInternetRecords;
+    }
+
+    @RequestMapping(value = "/appointment.action")
+    @GetMapping
+    public List<Appointmentoutvo> appointmentvos(){
+        List<Appointmentoutvo> appointmentoutvos = new ArrayList<>();
+        appointmentoutvos = adminSearch.appointmentvooutlist();
+        return appointmentoutvos;
     }
 }

@@ -1,6 +1,7 @@
 package com.csust.InternetCafe.business.controller;
 
 
+import com.csust.InternetCafe.business.schedule.EsSchedule;
 import com.csust.InternetCafe.business.service.LoadAndRegister;
 import com.csust.InternetCafe.business.vo.Registervo;
 import com.csust.InternetCafe.common.config.RabbitmqConfig;
@@ -14,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,23 +48,15 @@ public class LoadController {
     @Resource
     private LoadAndRegister loadAndRegister;
 
-    @Resource
-    private EsSurfInternetRecordsRepository esSurfInternetRecordsRepository;
     private static Logger logger = LogManager.getLogger("HelloLog4j");
+
+    @Resource
+    private EsSchedule esSchedule;
 
     @RequestMapping("/login.html")
     @PostMapping
     public String login() {
-        EsSurfInternetRecords esSurfInternetRecords = EsSurfInternetRecords.builder()
-                .id(6)
-                .uid(10)
-                .computerId(13)
-                .consumptionAmount(10)
-                .startTime(Long.valueOf(5000))
-                .endTime(Long.valueOf(10000))
-                .cafeName("changsha")
-                .build();
-       // esSurfInternetRecordsRepository.save(esSurfInternetRecords);
+        esSchedule.insertToEs("用户1");
         msgProducer.sendMsg("登陆请求");
         logger.info("登陆请求已经发送");
         return "login";

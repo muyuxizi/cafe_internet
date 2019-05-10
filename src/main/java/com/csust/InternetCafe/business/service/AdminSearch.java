@@ -1,5 +1,6 @@
 package com.csust.InternetCafe.business.service;
 
+import com.csust.InternetCafe.business.vo.Appointmentoutvo;
 import com.csust.InternetCafe.business.vo.TemporaryAppointmentvo;
 
 import java.util.List;
@@ -11,4 +12,6 @@ import java.util.List;
  */
 public interface AdminSearch {
     public List<TemporaryAppointmentvo> temporaryAppointmetList();
+
+    public List<Appointmentoutvo> appointmentvooutlist();
 }
