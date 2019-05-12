@@ -36,4 +36,12 @@ public class AdminController {
     public String appointment(){
         return "admin/appointment_list";
     }
+
+    @RequestMapping("/admin/computer_list.html")
+    @GetMapping
+    public String computers(){
+        return "admin/computer_list";
+    }
+
+
 }

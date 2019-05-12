@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>管理员首页</title>
+
+    <link th:href="@{/static/admins/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/static/admins/font-awesome/css/font-awesome.css}" rel="stylesheet">
+    <link th:href="@{/static/admins/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css}" rel="stylesheet">
+    <link th:href="@{/static/admins/css/plugins/jqGrid/ui.jqgrid.css}" rel="stylesheet">
+    <link th:href="@{/static/admins/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/static/admins/css/style.css}" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="block m-t-xs font-bold">LKF</span>
+                            <span class="text-muted text-xs block">菜单 <b class="caret"></b></span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a class="dropdown-item" href="login.html">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="logo-element">
+                        LKF
+                    </div>
+                </li>
+                <li class="active">
+                    <a href="admin.html"><i class="fa fa-home"></i> <span class="nav-label">欢迎页</span></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-shopping-cart"></i> <span class="nav-label">查询入口</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a th:href="@{/admin/appointment_list.html}">历史记录表</a></li>
+                        <li><a th:href="@{/admin/temporary_appointment_list.html}">临时预约表</a></li>
+                        <li><a th:href="@{/admin/surf_record_list.html}">今日上网记录表</a></li>
+                        <li><a th:href="@{'http://localhost:9100'}">历史上网记录表</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">App Views</span>  <span class="float-right label label-primary">SPECIAL</span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a th:href="@{/admin/computer_list.html}">机器管理列表</a></li>
+                        <li><a href="ecommerce_product_detail.html">Product detail</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                    <form role="search" class="navbar-form-custom" method="post" action="#">
+                        <div class="form-group">
+                            <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                        </div>
+                    </form>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-sign-out"></i> Log out
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center m-t-lg">
+                        <h1>
+                            欢迎进入Cafe_Internet管理台.
+                        </h1>
+                        <small>
+                            请点击左侧菜单来进行操作。
+                        </small>
+                        <div class="ibox-content">
+                            <div class="jqGrid_wrapper">
+                                <table id="computer_list"></table>
+                                <div id="pager_list_2"></div>
+                                <div id="consoleDlg" style="display:none">
+                                    <form id="consoleForm">
+                                        <input type="hidden" id="selectId"/>
+                                        <table class="formTable">
+                                            <tr>
+                                                <th>Id</th>
+                                                <td><input type="text" class="textField" id="id" name="id" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>机器编号</th>
+                                                <td><input type="text" class="textField" id="computerId" name="computerId" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>预约状态</th>
+                                                <td><input type="text" class="textField" id="isAppointment" name="isAppointment" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>使用状态</th>
+                                                <td><input type="text" class="textField" id="isUsed" name="isUsed" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>损坏状态</th>
+                                                <td><input type="text" class="textField" id="isDamaged" name="isDamaged" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>网咖名</th>
+                                                <td><input type="text" class="textField" id="cafeName" name="cafeName" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>每小时收费</th>
+                                                <td><input type="text" class="textField" id="level" name="level" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>吸烟区</th>
+                                                <td><input type="text" class="textField" id="isSomking" name="isSomking" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="pull-right">
+                    管理台
+                </div>
+                <div>
+                    <strong>Copyright</strong> XXX Company &copy; 2014-2019
+                </div>
+            </div>
+            <div class="footer">
+                <div class="float-right">
+                    欢迎来到<strong>xxx</strong> 网咖.
+                </div>
+                <div>
+                    <strong>制作</strong>Lkf &copy; 2014-2019
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Mainly scripts -->
+<script th:src="@{/static/admins/js/jquery-3.1.1.min.js}"></script>
+<script th:src="@{/static/admins/js/popper.min.js}"></script>
+<script th:src="@{/static/admins/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/admins/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/static/admins/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Peity -->
+<script th:src="@{/static/admins/js/plugins/peity/jquery.peity.min.js}"></script>
+
+<!-- jqGrid -->
+<script th:src="@{/static/admins/js/plugins/jqGrid/i18n/grid.locale-en.js}"></script>
+<script th:src="@{/static/admins/js/plugins/jqGrid/jquery.jqGrid.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/static/admins/js/inspinia.js}"></script>
+<script th:src="@{/static/admins/js/plugins/pace/pace.min.js}"></script>
+<script th:src="@{/static/admins/js/plugins/jquery-ui/jquery-ui.min.js}"></script>
+
+<script>
+    $(document).ready(function () {
+
+        // Configuration for jqGrid Example 2
+        $("#computer_list").jqGrid({
+            url: '/computer_list.action',
+            datatype: "json",
+            ajaxGridOptions: {contentType: 'application/json; charset=utf-8'},
+            height: 450,
+            autowidth: true,
+            shrinkToFit: true,
+            rowNum: 20,
+            rowList: [10, 20, 30],
+            colNames:['Id','机器编号', '预约状态', '使用状态','损坏状态','网咖名','每小时收费','吸烟区'],
+            colModel:[
+                {name:'id',index:'id', editable: true, width:40, sorttype:"int",search:true},
+                {name:'computerId',index:'computerId', editable: true, width:40 , sorttype:"int",search:true},
+                {name:'isAppointment',index:'isAppointment', editable: true, width:60},
+                {name:'isUsed',index:'isUsed', editable: true, width:40},
+                {name:'isDamaged',index:'isDamaged', editable: true, width:50},
+                {name:'cafeName',index:'cafeName', editable: true, width:80},
+                {name:'level',index:'level', editable: true, width:40},
+                {name:'isSomking',index:'isSomking', editable: true, width:50}
+            ],
+            pager: "#pager_list_2",
+            viewrecords: true,
+            caption: "机器管理列表",
+            add: true,
+            edit: true,
+            addtext: 'Add',
+            edittext: 'Edit',
+            hidegrid: false
+        });
+
+        // Add selection
+        $("#computer_list").setSelection(4, true);
+
+
+        // Setup buttons
+        $("#computer_list").jqGrid('navGrid', '#pager_list_2',
+            {edit: true,
+                add: true,
+                del: true,
+                search: true,
+                addfunc:openadd,
+            },
+
+            {height: 200, reloadAfterSubmit: true}
+        );
+
+        // Add responsive to jqGrid
+        $(window).bind('resize', function () {
+            var width = $('.jqGrid_wrapper').width();
+            $('#computer_list').setGridWidth(width);
+        });
+
+
+        $("#consoleDlg").dialog({
+            autoOpen:false,
+            modal:true      //设置对话框为模态对话框
+
+        });
+
+
+        setTimeout(function(){
+            $('.wrapper-content').removeClass('animated fadeInRight');
+        },700);
+    });
+
+    var openadd = function(){
+        var consoleDlg = $("#consoleDlg");
+        consoleDlg.find("input").removeAttr("disabled").val("");
+        consoleDlg.dialog({
+            title:"新增",
+            resizable:false,
+            width:480,
+            buttons:{
+                "取消":function(){
+                    $("#consoleDlg").dialog("close");
+                },
+                "新增":addItem
+            }
+        });
+        consoleDlg.dialog("open");
+    };
+
+    var addItem = function(){
+        var consoleDlg = $("#consoleDlg");
+        var id = $.trim(consoleDlg.find("#id").val());
+        var computerId = $.trim(consoleDlg.find("#computerId").val());
+        var isAppointment = $.trim(consoleDlg.find("#isAppointment").val());
+        var isUsed = $.trim(consoleDlg.find("#isUsed").val());
+        var isDamaged = $.trim(consoleDlg.find("#isDamaged").val());
+        var cafeName = $.trim(consoleDlg.find("#cafeName").val());
+        var level = $.trim(consoleDlg.find("#level").val());
+        var isSomking = $.trim(consoleDlg.find("#isSomking").val());
+
+        $.ajax({
+            url: '/computer_list/add.action',
+            contentType: "application/json",
+            data: JSON.stringify({
+                "id": id,
+                "computerId": computerId,
+                "isAppointment": isAppointment,
+                "isUsed": isUsed,
+                "isDamaged": isDamaged,
+                "cafeName": cafeName,
+                "level": level,
+                "isSomking": isSomking
+            }),
+            datatype: "json",
+            cache : false,
+            type:'POST',
+            success :  function(result) {
+                var str1 = "success";
+                if (result != str1) {
+                    alert("添加失败!");
+                }else{
+                    var dataRow = {
+                        id: id,
+                        computerId: computerId,
+                        isAppointment: isAppointment,
+                        isUsed: isUsed,
+                        isDamaged: isDamaged,
+                        cafeName: cafeName,
+                        level: level,
+                        isSomking: isSomking
+                    }
+                    $("#computer_list").jqGrid('addRowData', id,dataRow, 'last');
+                    consoleDlg.dialog("close");
+                    alert("添加成功!");
+                }
+            },
+            error : function(textStatus, e) {
+                alert("系统ajax交互错误: " + textStatus);
+            }
+        });
+
+    }
+
+</script>
+</body>
+
+</html>
