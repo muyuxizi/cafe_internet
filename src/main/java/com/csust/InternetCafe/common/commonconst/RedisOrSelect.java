@@ -111,7 +111,7 @@ public class RedisOrSelect {
         }
         map = redisService.hmget(Const.Redis_Computer);
         computers = (Computers) map.get(String.valueOf(computerId));
-        logger.info(map);
+       // logger.info(map);
         return computers;
     }
 

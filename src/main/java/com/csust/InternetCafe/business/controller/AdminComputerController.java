@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +36,15 @@ public class AdminComputerController {
         return computersList;
     }
 
+    @RequestMapping(value = "/computer_one.action")
+    public List<Computers> getOneComputers(@RequestParam Map<String, Object> params){
+        String sid =(String) params.get("id");
+        Computers computers = computerToGrid.getone(Integer.valueOf(sid));
+        List<Computers> computersList = new ArrayList<>();
+        computersList.add(computers);
+        return computersList;
+    }
+
     @RequestMapping(value = "/computer_list/add.action")
     @PostMapping
     public String add(@RequestBody Computers computers){
@@ -51,6 +59,16 @@ public class AdminComputerController {
     @PostMapping
     public String update(@RequestBody Computers computers){
         String result = computerToGrid.update(computers);
+        if("success".equals(result)){
+            return "success";
+        }
+        return "error";
+    }
+
+    @RequestMapping(value = "/computer_list/del.action")
+    @PostMapping
+    public String del(@RequestBody Computers computers){
+        String result = computerToGrid.del(computers.getComputerId());
         if("success".equals(result)){
             return "success";
         }

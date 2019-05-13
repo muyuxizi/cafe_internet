@@ -16,4 +16,8 @@ public interface ComputerToGrid {
     public String add(Computers computers);
 
     public String update(Computers computers);
+
+    public String del(int id);
+
+    public Computers getone(int id);
 }

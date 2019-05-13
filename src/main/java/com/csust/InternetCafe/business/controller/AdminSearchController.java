@@ -2,6 +2,7 @@ package com.csust.InternetCafe.business.controller;
 
 import com.csust.InternetCafe.business.service.AdminSearch;
 import com.csust.InternetCafe.business.vo.Appointmentoutvo;
+import com.csust.InternetCafe.business.vo.Surfrecordvo;
 import com.csust.InternetCafe.business.vo.TemporaryAppointmentvo;
 import com.csust.InternetCafe.common.entity.Appointment;
 import com.csust.InternetCafe.common.entity.SurfInternetRecords;
@@ -40,9 +41,10 @@ public class AdminSearchController {
 
     @RequestMapping(value = "/surf_record.action")
     @GetMapping
-    public List<SurfInternetRecords> surfInternetRecordvos(){
-        List<SurfInternetRecords> surfInternetRecords = new ArrayList<>();
-        return surfInternetRecords;
+    public List<Surfrecordvo> surfInternetRecordvos(){
+        List<Surfrecordvo> surfrecordvos = new ArrayList<>();
+        surfrecordvos = adminSearch.surfInternetRecordlist();
+        return surfrecordvos;
     }
 
     @RequestMapping(value = "/appointment.action")

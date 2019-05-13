@@ -3,13 +3,12 @@ package com.csust.InternetCafe.business.serviceImpl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.csust.InternetCafe.business.service.AdminSearch;
 import com.csust.InternetCafe.business.vo.Appointmentoutvo;
+import com.csust.InternetCafe.business.vo.Surfrecordvo;
 import com.csust.InternetCafe.business.vo.TemporaryAppointmentvo;
 import com.csust.InternetCafe.common.commonconst.RedisOrSelect;
-import com.csust.InternetCafe.common.entity.Appointment;
-import com.csust.InternetCafe.common.entity.Customers;
-import com.csust.InternetCafe.common.entity.TemporaryAppointment;
-import com.csust.InternetCafe.common.entity.Users;
+import com.csust.InternetCafe.common.entity.*;
 import com.csust.InternetCafe.common.service.AppointmentService;
+import com.csust.InternetCafe.common.service.SurfInternetRecordsService;
 import com.csust.InternetCafe.common.service.TemporaryAppointmentService;
 import com.csust.InternetCafe.common.service.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -39,6 +38,9 @@ public class AdminSearchImpl implements AdminSearch {
 
     @Resource
     private RedisOrSelect redisOrSelect;
+
+    @Resource
+    private SurfInternetRecordsService surfInternetRecordsService;
 
     private static Logger logger = LogManager.getLogger("HelloLog4j");
 
@@ -82,5 +84,26 @@ public class AdminSearchImpl implements AdminSearch {
             appointmentoutvos.add(appointmentoutvo);
         }
         return appointmentoutvos;
+    }
+
+    @Override
+    public List<Surfrecordvo> surfInternetRecordlist() {
+        List<Surfrecordvo> surfrecordvos = new ArrayList<>();
+        List<SurfInternetRecords> surfInternetRecordsList = new ArrayList<>();
+        EntityWrapper<SurfInternetRecords> entityWrapper = new EntityWrapper<>();
+        surfInternetRecordsList = surfInternetRecordsService.selectList(entityWrapper);
+        for(SurfInternetRecords surfInternetRecords : surfInternetRecordsList){
+            Users users = redisOrSelect.findUsers(surfInternetRecords.getUid());
+            Surfrecordvo surfrecordvo = Surfrecordvo.builder()
+                    .username(users.getUsername())
+                    .cafeName(surfInternetRecords.getCafeName())
+                    .computerId(surfInternetRecords.getComputerId())
+                    .consumptionAmount(surfInternetRecords.getConsumptionAmount())
+                    .startTime(surfInternetRecords.getStartTime())
+                    .endTime(surfInternetRecords.getEndTime())
+                    .build();
+           surfrecordvos.add(surfrecordvo);
+        }
+        return surfrecordvos;
     }
 }

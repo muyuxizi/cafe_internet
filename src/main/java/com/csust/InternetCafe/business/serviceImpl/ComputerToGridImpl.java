@@ -44,6 +44,12 @@ public class ComputerToGridImpl implements ComputerToGrid {
     }
 
     @Override
+    public Computers getone(int id) {
+        Computers computers = redisOrSelect.findComputers(id);
+        return computers;
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public String add(Computers computers) {
         try {
@@ -66,4 +72,18 @@ public class ComputerToGridImpl implements ComputerToGrid {
            throw e;
        }
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String del(int id) {
+        try {
+           computersService.deleteById(id);
+           updateRedis.UpdateComputers();
+            return "success";
+        }catch (Exception e){
+            throw e;
+        }
+    }
+
+
 }

@@ -39,7 +39,7 @@
                     </div>
                 </li>
                 <li class="active">
-                    <a href="admin.html"><i class="fa fa-home"></i> <span class="nav-label">欢迎页</span></a>
+                    <a th:href="@{/admin.html}"><i class="fa fa-home"></i> <span class="nav-label">欢迎页</span></a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-shopping-cart"></i> <span class="nav-label">查询入口</span><span class="fa arrow"></span></a>
@@ -51,10 +51,10 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">App Views</span>  <span class="float-right label label-primary">SPECIAL</span></a>
+                    <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">系统管理</span>  <span class="float-right label label-primary">SPECIAL</span></a>
                     <ul class="nav nav-second-level collapse">
                         <li><a th:href="@{/admin/computer_list.html}">机器管理列表</a></li>
-                        <li><a href="ecommerce_product_detail.html">Product detail</a></li>
+                        <li><a href="ecommerce_product_detail.html">商品管理列表</a></li>
                     </ul>
                 </li>
             </ul>
@@ -95,6 +95,13 @@
                         </small>
                         <div class="ibox-content">
                             <div class="jqGrid_wrapper">
+                                <form class="divider query_form" name="interfaceLogForm1">
+                                <div class="form-group">
+                                    <label style="display: inline-block">机器ID：</label>
+                                    <input type="text"style="display: inline-block" name="search" id ="search">
+                                    <button class="btn btn_green" type="button" id="search_button">查询</button>
+                                </div>
+                                </form>
                                 <table id="computer_list"></table>
                                 <div id="pager_list_2"></div>
                                 <div id="consoleDlg" style="display:none">
@@ -143,6 +150,7 @@
                                             </tr>
                                         </table>
                                     </form>
+
                                 </div>
                             </div>
                         </div>
@@ -227,11 +235,12 @@
 
         // Setup buttons
         $("#computer_list").jqGrid('navGrid', '#pager_list_2',
-            {edit: true,
+            {   edit: true,
                 add: true,
                 del: true,
-                search: true,
                 addfunc:openadd,
+                editfunc:openupdate,
+                delfunc:opendel
             },
 
             {height: 200, reloadAfterSubmit: true}
@@ -272,6 +281,65 @@
         });
         consoleDlg.dialog("open");
     };
+
+
+    var openupdate = function(){
+        var consoleDlg = $("#consoleDlg");
+        consoleDlg.find("input").removeAttr("disabled");
+        consoleDlg.dialog({
+            title:"修改",
+            resizable:false,
+            width:480,
+            buttons:{
+                "取消":function(){
+                    $("#consoleDlg").dialog("close");
+                },
+                "修改":updateItem
+            }
+        });
+        loadSelectedRowData();
+        consoleDlg.dialog("open");
+    };
+
+
+    var opendel = function(){
+        var consoleDlg = $("#consoleDlg");
+        consoleDlg.find("input").attr("disabled", true);
+        consoleDlg.dialog({
+            title:"删除",
+            resizable:false,
+            width:480,
+            buttons:{
+                "取消":function(){
+                    $("#consoleDlg").dialog("close");
+                },
+                "删除":deleteItem
+            }
+        });
+        loadSelectedRowData();
+        consoleDlg.dialog("open");
+    };
+
+
+    var loadSelectedRowData = function(){
+        var selectedRowId = $("#computer_list").jqGrid("getGridParam", "selrow");
+        var rowData = $("#computer_list").jqGrid("getRowData",selectedRowId);
+        if (!selectedRowId) {
+            alert("请先选择需要编辑的行!");
+            return false;
+        } else {
+            var consoleDlg = $("#consoleDlg");
+            consoleDlg.find("#id").val(rowData.id);
+            consoleDlg.find("#computerId").val(rowData.computerId);
+            consoleDlg.find("#isAppointment").val(rowData.isAppointment);
+            consoleDlg.find("#isUsed").val(rowData.isUsed);
+            consoleDlg.find("#isDamaged").val(rowData.isDamaged);
+            consoleDlg.find("#cafeName").val(rowData.cafeName);
+            consoleDlg.find("#level").val(rowData.level);
+            consoleDlg.find("#isSomking").val(rowData.isSomking);
+        }
+    };
+
 
     var addItem = function(){
         var consoleDlg = $("#consoleDlg");
@@ -327,6 +395,117 @@
 
     }
 
+
+    var updateItem = function(){
+        var consoleDlg = $("#consoleDlg");
+        var id = $.trim(consoleDlg.find("#id").val());
+        var computerId = $.trim(consoleDlg.find("#computerId").val());
+        var isAppointment = $.trim(consoleDlg.find("#isAppointment").val());
+        var isUsed = $.trim(consoleDlg.find("#isUsed").val());
+        var isDamaged = $.trim(consoleDlg.find("#isDamaged").val());
+        var cafeName = $.trim(consoleDlg.find("#cafeName").val());
+        var level = $.trim(consoleDlg.find("#level").val());
+        var isSomking = $.trim(consoleDlg.find("#isSomking").val());
+        $.ajax({
+            url: '/computer_list/update.action',
+            contentType: "application/json",
+            data: JSON.stringify({
+                "id": id,
+                "computerId": computerId,
+                "isAppointment": isAppointment,
+                "isUsed": isUsed,
+                "isDamaged": isDamaged,
+                "cafeName": cafeName,
+                "level": level,
+                "isSomking": isSomking
+            }),
+            datatype: "json",
+            cache : false,
+            type:'POST',
+            success :  function(result) {
+                var str1 = "success";
+                if (result != str1) {
+                    alert("更新失败!");
+                }else{
+                    var dataRow = {
+                        id: id,
+                        computerId: computerId,
+                        isAppointment: isAppointment,
+                        isUsed: isUsed,
+                        isDamaged: isDamaged,
+                        cafeName: cafeName,
+                        level: level,
+                        isSomking: isSomking
+                    }
+                    $("#computer_list").jqGrid('setRowData', id,dataRow);
+                    consoleDlg.dialog("close");
+                    alert("修改成功!");
+                }
+            },
+            error : function(textStatus, e) {
+                alert("系统ajax交互错误: " + textStatus);
+            }
+        });
+    }
+
+    var deleteItem = function(){
+        var consoleDlg = $("#consoleDlg");
+        var id = $.trim(consoleDlg.find("#id").val());
+        var computerId = $.trim(consoleDlg.find("#computerId").val());
+        var isAppointment = $.trim(consoleDlg.find("#isAppointment").val());
+        var isUsed = $.trim(consoleDlg.find("#isUsed").val());
+        var isDamaged = $.trim(consoleDlg.find("#isDamaged").val());
+        var cafeName = $.trim(consoleDlg.find("#cafeName").val());
+        var level = $.trim(consoleDlg.find("#level").val());
+        var isSomking = $.trim(consoleDlg.find("#isSomking").val());
+        $.ajax({
+            url: '/computer_list/del.action',
+            contentType: "application/json",
+            data: JSON.stringify({
+                "id": id,
+                "computerId": computerId,
+                "isAppointment": isAppointment,
+                "isUsed": isUsed,
+                "isDamaged": isDamaged,
+                "cafeName": cafeName,
+                "level": level,
+                "isSomking": isSomking
+            }),
+            datatype: "json",
+            cache : false,
+            type:'POST',
+            success :  function(result) {
+                var str1 = "success";
+                if (result != str1) {
+                    alert("删除失败!");
+                }else{
+                    $("#computer_list").jqGrid('delRowData', id);
+                    consoleDlg.dialog("close");
+                    alert("删除成功!");
+                }
+            },
+            error : function(textStatus, e) {
+                alert("系统ajax交互错误: " + textStatus);
+            }
+        });
+    }
+
+
+    $(function(){
+        $("#search_button").click(function(){
+
+            var id = $("#search").val();
+            $("#computer_list").jqGrid('clearGridData');
+            $("#computer_list").jqGrid('setGridParam',{
+                url: '/computer_one.action',
+                datatype: "json",
+                postData:{
+                    id: id
+                },
+                page : 1
+            }).trigger("reloadGrid"); //重新载入
+        });
+    });
 </script>
 </body>
 
