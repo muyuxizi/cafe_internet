@@ -13,11 +13,11 @@ public interface ComputerToGrid {
 
     public List<Computers> get();
 
-    public String add(Computers computers);
+    public String add(String username ,Computers computers);
 
-    public String update(Computers computers);
+    public String update(String username ,Computers computers);
 
-    public String del(int id);
+    public String del(String username ,int id);
 
     public Computers getone(int id);
 }

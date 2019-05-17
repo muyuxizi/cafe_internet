@@ -97,31 +97,26 @@
                         <div class="ibox-content">
                             <div class="jqGrid_wrapper">
                                 <form class="divider query_form" name="interfaceLogForm1">
-                                <div class="form-group">
-                                    <label style="display: inline-block">机器ID：</label>
-                                    <input type="text"style="display: inline-block" name="search" id ="search">
-                                    <button class="btn btn_green" type="button" id="search_button">查询</button>
-                                </div>
+                                    <div class="form-group">
+                                        <label style="display: inline-block">用户名：</label>
+                                        <input type="text"style="display: inline-block" name="search" id ="search">
+                                        <button class="btn btn_green" type="button" id="search_button">查询</button>
+                                    </div>
                                 </form>
-                                <table id="computer_list"></table>
-                                <div id="pager_list_2"></div>
+                                <table id="customers_list"></table>
+                                <div id="pager_list"></div>
                                 <div id="consoleDlg" style="display:none">
                                     <form id="consoleForm">
                                         <input type="hidden" id="selectId"/>
                                         <table class="formTable">
                                             <tr>
-                                                <th>Id</th>
-                                                <td><input type="text" class="textField" id="id" name="id" />
+                                                <th>用户名</th>
+                                                <td><input type="text" class="textField" id="username" name="username"  readonly="readonly"  />
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>机器编号</th>
-                                                <td><input type="text" class="textField" id="computerId" name="computerId" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>预约状态</th>
-                                                <td><input type="text" class="textField" id="isAppointment" name="isAppointment" />
+                                                <th>账户余额</th>
+                                                <td><input type="text" class="textField" id="accountMoney" name="accountMoney" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -130,23 +125,18 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>损坏状态</th>
-                                                <td><input type="text" class="textField" id="isDamaged" name="isDamaged" />
+                                                <th>预约状态</th>
+                                                <td><input type="text" class="textField" id="isAppointment" name="isAppointment" />
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>网咖名</th>
-                                                <td><input type="text" class="textField" id="cafeName" name="cafeName" />
+                                                <th>电话号码</th>
+                                                <td><input type="text" class="textField" id="telephoneNumber" name="telephoneNumber" />
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>每小时收费</th>
-                                                <td><input type="text" class="textField" id="level" name="level" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>吸烟区</th>
-                                                <td><input type="text" class="textField" id="isSomking" name="isSomking" />
+                                                <th>生日</th>
+                                                <td><input type="text" class="textField" id="birthday" name="birthday" />
                                                 </td>
                                             </tr>
                                         </table>
@@ -200,8 +190,8 @@
     $(document).ready(function () {
 
         // Configuration for jqGrid Example 2
-        $("#computer_list").jqGrid({
-            url: '/computer_list.action',
+        $("#customers_list").jqGrid({
+            url: '/customers_list.action',
             datatype: "json",
             ajaxGridOptions: {contentType: 'application/json; charset=utf-8'},
             height: 450,
@@ -209,20 +199,18 @@
             shrinkToFit: true,
             rowNum: 20,
             rowList: [10, 20, 30],
-            colNames:['Id','机器编号', '预约状态', '使用状态','损坏状态','网咖名','每小时收费','吸烟区'],
+            colNames:['用户名','账户余额', '使用状态', '预约状态','电话号码','生日'],
             colModel:[
-                {name:'id',index:'id', editable: true, width:40, sorttype:"int",search:true},
-                {name:'computerId',index:'computerId', editable: true, width:40 , sorttype:"int",search:true},
-                {name:'isAppointment',index:'isAppointment', editable: true, width:60},
+                {name:'username',index:'username', editable: true, width:40},
+                {name:'accountMoney',index:'accountMoney', editable: true, width:40 , sorttype:"int",search:true},
                 {name:'isUsed',index:'isUsed', editable: true, width:40},
-                {name:'isDamaged',index:'isDamaged', editable: true, width:50},
-                {name:'cafeName',index:'cafeName', editable: true, width:80},
-                {name:'level',index:'level', editable: true, width:40},
-                {name:'isSomking',index:'isSomking', editable: true, width:50}
+                {name:'isAppointment',index:'isAppointment', editable: true, width:60},
+                {name:'telephoneNumber',index:'telephoneNumber', editable: true, width:50},
+                {name:'birthday',index:'birthday', editable: true, width:40}
             ],
-            pager: "#pager_list_2",
+            pager: "#pager_list",
             viewrecords: true,
-            caption: "机器管理列表",
+            caption: "用户管理列表",
             add: true,
             edit: true,
             addtext: 'Add',
@@ -231,17 +219,15 @@
         });
 
         // Add selection
-        $("#computer_list").setSelection(4, true);
+        $("#customers_list").setSelection(4, true);
 
 
         // Setup buttons
-        $("#computer_list").jqGrid('navGrid', '#pager_list_2',
-            {   edit: true,
+        $("#customers_list").jqGrid('navGrid', '#pager_list',
+            {  edit: true,
                 add: true,
                 del: true,
-                addfunc:openadd,
-                editfunc:openupdate,
-                delfunc:opendel
+                editfunc:openupdate
             },
 
             {height: 200, reloadAfterSubmit: true}
@@ -250,7 +236,7 @@
         // Add responsive to jqGrid
         $(window).bind('resize', function () {
             var width = $('.jqGrid_wrapper').width();
-            $('#computer_list').setGridWidth(width);
+            $('#customers_list').setGridWidth(width);
         });
 
 
@@ -266,22 +252,6 @@
         },700);
     });
 
-    var openadd = function(){
-        var consoleDlg = $("#consoleDlg");
-        consoleDlg.find("input").removeAttr("disabled").val("");
-        consoleDlg.dialog({
-            title:"新增",
-            resizable:false,
-            width:480,
-            buttons:{
-                "取消":function(){
-                    $("#consoleDlg").dialog("close");
-                },
-                "新增":addItem
-            }
-        });
-        consoleDlg.dialog("open");
-    };
 
 
     var openupdate = function(){
@@ -303,122 +273,46 @@
     };
 
 
-    var opendel = function(){
-        var consoleDlg = $("#consoleDlg");
-        consoleDlg.find("input").attr("disabled", true);
-        consoleDlg.dialog({
-            title:"删除",
-            resizable:false,
-            width:480,
-            buttons:{
-                "取消":function(){
-                    $("#consoleDlg").dialog("close");
-                },
-                "删除":deleteItem
-            }
-        });
-        loadSelectedRowData();
-        consoleDlg.dialog("open");
-    };
 
 
     var loadSelectedRowData = function(){
-        var selectedRowId = $("#computer_list").jqGrid("getGridParam", "selrow");
-        var rowData = $("#computer_list").jqGrid("getRowData",selectedRowId);
+        var selectedRowId = $("#customers_list").jqGrid("getGridParam", "selrow");
+        var rowData = $("#customers_list").jqGrid("getRowData",selectedRowId);
         if (!selectedRowId) {
             alert("请先选择需要编辑的行!");
             return false;
         } else {
             var consoleDlg = $("#consoleDlg");
-            consoleDlg.find("#id").val(rowData.id);
-            consoleDlg.find("#computerId").val(rowData.computerId);
+            consoleDlg.find("#username").val(rowData.username);
+            consoleDlg.find("#accountMoney").val(rowData.accountMoney);
             consoleDlg.find("#isAppointment").val(rowData.isAppointment);
             consoleDlg.find("#isUsed").val(rowData.isUsed);
-            consoleDlg.find("#isDamaged").val(rowData.isDamaged);
-            consoleDlg.find("#cafeName").val(rowData.cafeName);
-            consoleDlg.find("#level").val(rowData.level);
-            consoleDlg.find("#isSomking").val(rowData.isSomking);
+            consoleDlg.find("#telephoneNumber").val(rowData.telephoneNumber);
+            consoleDlg.find("#birthday").val(rowData.birthday)
         }
     };
 
 
-    var addItem = function(){
-        var consoleDlg = $("#consoleDlg");
-        var id = $.trim(consoleDlg.find("#id").val());
-        var computerId = $.trim(consoleDlg.find("#computerId").val());
-        var isAppointment = $.trim(consoleDlg.find("#isAppointment").val());
-        var isUsed = $.trim(consoleDlg.find("#isUsed").val());
-        var isDamaged = $.trim(consoleDlg.find("#isDamaged").val());
-        var cafeName = $.trim(consoleDlg.find("#cafeName").val());
-        var level = $.trim(consoleDlg.find("#level").val());
-        var isSomking = $.trim(consoleDlg.find("#isSomking").val());
-
-        $.ajax({
-            url: '/computer_list/add.action',
-            contentType: "application/json",
-            data: JSON.stringify({
-                "id": id,
-                "computerId": computerId,
-                "isAppointment": isAppointment,
-                "isUsed": isUsed,
-                "isDamaged": isDamaged,
-                "cafeName": cafeName,
-                "level": level,
-                "isSomking": isSomking
-            }),
-            datatype: "json",
-            cache : false,
-            type:'POST',
-            success :  function(result) {
-                var str1 = "success";
-                if (result != str1) {
-                    alert("添加失败!");
-                }else{
-                    var dataRow = {
-                        id: id,
-                        computerId: computerId,
-                        isAppointment: isAppointment,
-                        isUsed: isUsed,
-                        isDamaged: isDamaged,
-                        cafeName: cafeName,
-                        level: level,
-                        isSomking: isSomking
-                    }
-                    $("#computer_list").jqGrid('addRowData', id,dataRow, 'last');
-                    consoleDlg.dialog("close");
-                    alert("添加成功!");
-                }
-            },
-            error : function(textStatus, e) {
-                alert("系统ajax交互错误: " + textStatus);
-            }
-        });
-
-    }
 
 
     var updateItem = function(){
         var consoleDlg = $("#consoleDlg");
-        var id = $.trim(consoleDlg.find("#id").val());
-        var computerId = $.trim(consoleDlg.find("#computerId").val());
+        var username = $.trim(consoleDlg.find("#username").val());
+        var accountMoney = $.trim(consoleDlg.find("#accountMoney").val());
         var isAppointment = $.trim(consoleDlg.find("#isAppointment").val());
         var isUsed = $.trim(consoleDlg.find("#isUsed").val());
-        var isDamaged = $.trim(consoleDlg.find("#isDamaged").val());
-        var cafeName = $.trim(consoleDlg.find("#cafeName").val());
-        var level = $.trim(consoleDlg.find("#level").val());
-        var isSomking = $.trim(consoleDlg.find("#isSomking").val());
+        var telephoneNumber = $.trim(consoleDlg.find("#telephoneNumber").val());
+        var birthday = $.trim(consoleDlg.find("#birthday").val());
         $.ajax({
-            url: '/computer_list/update.action',
+            url: '/customers_list/update.action',
             contentType: "application/json",
             data: JSON.stringify({
-                "id": id,
-                "computerId": computerId,
+                "username": username,
+                "accountMoney": accountMoney,
                 "isAppointment": isAppointment,
                 "isUsed": isUsed,
-                "isDamaged": isDamaged,
-                "cafeName": cafeName,
-                "level": level,
-                "isSomking": isSomking
+                "telephoneNumber": telephoneNumber,
+                "birthday": birthday
             }),
             datatype: "json",
             cache : false,
@@ -429,16 +323,14 @@
                     alert("更新失败!");
                 }else{
                     var dataRow = {
-                        id: id,
-                        computerId: computerId,
+                        username: username,
+                        accountMoney: accountMoney,
                         isAppointment: isAppointment,
                         isUsed: isUsed,
-                        isDamaged: isDamaged,
-                        cafeName: cafeName,
-                        level: level,
-                        isSomking: isSomking
+                        telephoneNumber: telephoneNumber,
+                        birthday: birthday
                     }
-                    $("#computer_list").jqGrid('setRowData', id,dataRow);
+                    $("#customers_list").jqGrid('setRowData', id,dataRow);
                     consoleDlg.dialog("close");
                     alert("修改成功!");
                 }
@@ -447,61 +339,20 @@
                 alert("系统ajax交互错误: " + textStatus);
             }
         });
-    }
+    };
 
-    var deleteItem = function(){
-        var consoleDlg = $("#consoleDlg");
-        var id = $.trim(consoleDlg.find("#id").val());
-        var computerId = $.trim(consoleDlg.find("#computerId").val());
-        var isAppointment = $.trim(consoleDlg.find("#isAppointment").val());
-        var isUsed = $.trim(consoleDlg.find("#isUsed").val());
-        var isDamaged = $.trim(consoleDlg.find("#isDamaged").val());
-        var cafeName = $.trim(consoleDlg.find("#cafeName").val());
-        var level = $.trim(consoleDlg.find("#level").val());
-        var isSomking = $.trim(consoleDlg.find("#isSomking").val());
-        $.ajax({
-            url: '/computer_list/del.action',
-            contentType: "application/json",
-            data: JSON.stringify({
-                "id": id,
-                "computerId": computerId,
-                "isAppointment": isAppointment,
-                "isUsed": isUsed,
-                "isDamaged": isDamaged,
-                "cafeName": cafeName,
-                "level": level,
-                "isSomking": isSomking
-            }),
-            datatype: "json",
-            cache : false,
-            type:'POST',
-            success :  function(result) {
-                var str1 = "success";
-                if (result != str1) {
-                    alert("删除失败!");
-                }else{
-                    $("#computer_list").jqGrid('delRowData', id);
-                    consoleDlg.dialog("close");
-                    alert("删除成功!");
-                }
-            },
-            error : function(textStatus, e) {
-                alert("系统ajax交互错误: " + textStatus);
-            }
-        });
-    }
 
 
     $(function(){
         $("#search_button").click(function(){
 
-            var id = $("#search").val();
-            $("#computer_list").jqGrid('clearGridData');
-            $("#computer_list").jqGrid('setGridParam',{
-                url: '/computer_one.action',
+            var username = $("#search").val();
+            $("#customers_list").jqGrid('clearGridData');
+            $("#customers_list").jqGrid('setGridParam',{
+                url: '/customers_list/getone.action',
                 datatype: "json",
                 postData:{
-                    id: id
+                    username: username
                 },
                 page : 1
             }).trigger("reloadGrid"); //重新载入

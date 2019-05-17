@@ -3,7 +3,10 @@ package com.csust.InternetCafe.business.serviceImpl;
 import com.csust.InternetCafe.business.service.ComputerToGrid;
 import com.csust.InternetCafe.common.commonconst.RedisOrSelect;
 import com.csust.InternetCafe.common.commonconst.UpdateRedis;
+import com.csust.InternetCafe.common.entity.AdminOperationRecords;
 import com.csust.InternetCafe.common.entity.Computers;
+import com.csust.InternetCafe.common.entity.Users;
+import com.csust.InternetCafe.common.service.AdminOperarionRecordsService;
 import com.csust.InternetCafe.common.service.ComputersService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +34,9 @@ public class ComputerToGridImpl implements ComputerToGrid {
     @Resource
     private ComputersService computersService;
 
+    @Resource
+    private AdminOperarionRecordsService adminOperarionRecordsService;
+
     @Override
     public List<Computers> get() {
         Map<String , Object> map = new HashMap<>();
@@ -51,8 +57,18 @@ public class ComputerToGridImpl implements ComputerToGrid {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String add(Computers computers) {
+    public String add(String username,Computers computers) {
+        Users users = redisOrSelect.findUsers(username);
+        AdminOperationRecords adminOperationRecords = AdminOperationRecords.builder()
+                .adminId(users.getUid())
+                .operationDetails("增加机器")
+                .operationReason("增加机器")
+                .operationSurface("computers")
+                .updateTime(System.currentTimeMillis())
+                .id(0)
+                .build();
         try {
+            adminOperarionRecordsService.insert(adminOperationRecords);
             computersService.insert(computers);
             updateRedis.UpdateComputers();
             return "success";
@@ -63,8 +79,18 @@ public class ComputerToGridImpl implements ComputerToGrid {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String update(Computers computers) {
+    public String update(String username ,Computers computers) {
+        Users users = redisOrSelect.findUsers(username);
+        AdminOperationRecords adminOperationRecords = AdminOperationRecords.builder()
+                .adminId(users.getUid())
+                .operationDetails("更新机器")
+                .operationReason("更新机器")
+                .operationSurface("computers")
+                .updateTime(System.currentTimeMillis())
+                .id(0)
+                .build();
        try {
+           adminOperarionRecordsService.insert(adminOperationRecords);
            computersService.updateById(computers);
            updateRedis.UpdateComputers(computers.getComputerId() , computers);
            return "success";
@@ -75,8 +101,18 @@ public class ComputerToGridImpl implements ComputerToGrid {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String del(int id) {
+    public String del(String username ,int id) {
+        Users users = redisOrSelect.findUsers(username);
+        AdminOperationRecords adminOperationRecords = AdminOperationRecords.builder()
+                .adminId(users.getUid())
+                .operationDetails("删除机器")
+                .operationReason("删除机器")
+                .operationSurface("computers")
+                .updateTime(System.currentTimeMillis())
+                .id(0)
+                .build();
         try {
+            adminOperarionRecordsService.insert(adminOperationRecords);
            computersService.deleteById(id);
            updateRedis.UpdateComputers();
             return "success";

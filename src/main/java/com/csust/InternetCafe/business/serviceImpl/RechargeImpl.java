@@ -1,12 +1,12 @@
 package com.csust.InternetCafe.business.serviceImpl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.csust.InternetCafe.business.service.Recharge;
 import com.csust.InternetCafe.common.commonconst.Const;
 import com.csust.InternetCafe.common.commonconst.RedisOrSelect;
-import com.csust.InternetCafe.common.entity.Customers;
-import com.csust.InternetCafe.common.entity.RechargeRecords;
-import com.csust.InternetCafe.common.entity.Users;
+import com.csust.InternetCafe.common.entity.*;
 import com.csust.InternetCafe.common.service.CustomersService;
+import com.csust.InternetCafe.common.service.EveryBillService;
 import com.csust.InternetCafe.common.service.RechargeRecordsService;
 import com.csust.InternetCafe.common.service.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigInteger;
+import java.util.Calendar;
 
 /**
  * @Author: 小凯神
@@ -42,9 +43,14 @@ public class RechargeImpl implements Recharge {
     @Resource
     private RedisOrSelect redisOrSelect;
 
+    @Resource
+    private EveryBillService everyBillService;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String recharge(String username, int money) {
+
+
 
         if(money < 0 || money > 9999){return  "请输入大于0小于10000的充值金额";}
 
@@ -60,6 +66,15 @@ public class RechargeImpl implements Recharge {
             logger.error(e.getMessage()+"");
             throw e;
         }
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int date = c.get(Calendar.DATE);
+        String time = year + "-" + month + "-" +date;
+        EntityWrapper<EverydayBill> entityWrapper = new EntityWrapper<>();
+        entityWrapper.eq("time",time);
+        EverydayBill everydayBill = everyBillService.selectById(entityWrapper);
+
 
         RechargeRecords rechargeRecords = RechargeRecords.builder()
                 .rechargeMode(4)

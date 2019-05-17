@@ -4,10 +4,15 @@ package com.csust.InternetCafe.business.controller;
 import com.csust.InternetCafe.business.schedule.EsSchedule;
 import com.csust.InternetCafe.business.service.LoadAndRegister;
 import com.csust.InternetCafe.business.vo.Registervo;
+import com.csust.InternetCafe.common.commonconst.Const;
+import com.csust.InternetCafe.common.commonconst.RedisOrSelect;
 import com.csust.InternetCafe.common.config.RabbitmqConfig;
 import com.csust.InternetCafe.common.entity.EsSurfInternetRecords;
+import com.csust.InternetCafe.common.entity.Permission;
+import com.csust.InternetCafe.common.entity.Users;
 import com.csust.InternetCafe.common.mapper.EsSurfInternetRecordsRepository;
 import com.csust.InternetCafe.common.pojo.MsgProducer;
+import com.csust.InternetCafe.common.service.PermissionService;
 import net.minidev.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +22,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,12 +32,15 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * @Author: 小凯神
@@ -42,11 +51,17 @@ import java.util.ArrayList;
 @Controller
 public class LoadController {
 
+
+    private ModelAndView modelAndView;
+
     @Resource
     private MsgProducer msgProducer;
 
     @Resource
     private LoadAndRegister loadAndRegister;
+
+    @Resource
+    private RedisOrSelect redisOrSelect;
 
     private static Logger logger = LogManager.getLogger("HelloLog4j");
 
@@ -76,12 +91,23 @@ public class LoadController {
     }
 
 
-    @RequestMapping("/index.html")
+    @RequestMapping("/find.html")
     @GetMapping
-    public String yanzheng(){
-        logger.info("加载基础配置");
-        return "index";
+    public View tiaozhuan(ModelMap model, HttpServletRequest request){
+        String path = request.getContextPath() ;
+        String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+        Set<String> roles = AuthorityUtils.authorityListToSet(SecurityContextHolder.getContext()
+                .getAuthentication().getAuthorities());
+        logger.info(roles);
+        if (roles.contains("read_index")) {
+            return new RedirectView(basePath + "index");
+        }else if(roles.contains("read_admin")) {
+            return new RedirectView(basePath + "admin.html");
+        }else {
+            return new RedirectView(basePath + "superadmin.html");
+        }
     }
+
 
 
    @RequestMapping(value = "/register.action")

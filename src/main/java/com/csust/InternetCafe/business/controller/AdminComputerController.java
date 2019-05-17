@@ -5,6 +5,7 @@ import com.csust.InternetCafe.common.commonconst.RedisOrSelect;
 import com.csust.InternetCafe.common.entity.Computers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -47,8 +48,8 @@ public class AdminComputerController {
 
     @RequestMapping(value = "/computer_list/add.action")
     @PostMapping
-    public String add(@RequestBody Computers computers){
-      String result = computerToGrid.add(computers);
+    public String add(Authentication authentication , @RequestBody Computers computers){
+      String result = computerToGrid.add(authentication.getName() ,computers);
         if("success".equals(result)){
             return "success";
         }
@@ -57,8 +58,8 @@ public class AdminComputerController {
 
     @RequestMapping(value = "/computer_list/update.action")
     @PostMapping
-    public String update(@RequestBody Computers computers){
-        String result = computerToGrid.update(computers);
+    public String update(Authentication authentication , @RequestBody Computers computers){
+        String result = computerToGrid.update(authentication.getName(),computers);
         if("success".equals(result)){
             return "success";
         }
@@ -67,8 +68,8 @@ public class AdminComputerController {
 
     @RequestMapping(value = "/computer_list/del.action")
     @PostMapping
-    public String del(@RequestBody Computers computers){
-        String result = computerToGrid.del(computers.getComputerId());
+    public String del(Authentication authentication , @RequestBody Computers computers){
+        String result = computerToGrid.del(authentication.getName() , computers.getComputerId());
         if("success".equals(result)){
             return "success";
         }
