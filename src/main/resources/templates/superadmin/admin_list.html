@@ -39,23 +39,28 @@
                     </div>
                 </li>
                 <li class="active">
-                    <a th:href="@{/admin.html}"><i class="fa fa-home"></i> <span class="nav-label">欢迎页</span></a>
+                    <a th:href="@{/superadmin.html}"><i class="fa fa-home"></i> <span class="nav-label">欢迎页</span></a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-table"></i> <span class="nav-label">查询入口</span><span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">信息查看</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a th:href="@{/admin/appointment_list.html}">历史记录表</a></li>
-                        <li><a th:href="@{/admin/temporary_appointment_list.html}">临时预约表</a></li>
-                        <li><a th:href="@{/admin/surf_record_list.html}">今日上网记录表</a></li>
-                        <li><a th:href="@{'http://localhost:9100'}">历史上网记录表</a></li>
+                        <li><a th:href="@{/superadmin/operation_records.html}">管理员操作记录查看</a></li>
+                        <li><a th:href="@{/superadmin/everyday_bill.html}">查看每日收益</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">系统管理</span>  <span class="float-right label label-primary">SPECIAL</span></a>
+                    <a href="#"><i class="fa fa-laptop"></i> <span class="nav-label">日常事务管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a th:href="@{/admin/computer_list.html}">机器管理列表</a></li>
-                        <li><a th:href="@{/admin/customers_list.html}">顾客管理列表</a></li>
-                        <li><a th:href="@{/admin/shops_list.html}">商品管理列表</a></li>
+                        <li><a th:href="@{/superadmin/permission_list.html}">权限管理</a></li>
+                        <li><a th:href="@{/superadmin/admin_list.html}">管理员设置</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">系统性能查看</span>  <span class="float-right label label-primary">SPECIAL</span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a th:href="@{'http://localhost:7001/governance/services'}">Dubbo接口查看</a></li>
+                        <li><a th:href="@{'http://localhost:15672'}">消息队列查看</a></li>
+                        <li><a th:href="@{'http://localhost:9100'}">ES查看</a></li>
                     </ul>
                 </li>
             </ul>
@@ -97,56 +102,41 @@
                         <div class="ibox-content">
                             <div class="jqGrid_wrapper">
                                 <form class="divider query_form" name="interfaceLogForm1">
-                                <div class="form-group">
-                                    <label style="display: inline-block">机器ID：</label>
-                                    <input type="text"style="display: inline-block" name="search" id ="search">
-                                    <button class="btn btn_green" type="button" id="search_button">查询</button>
-                                </div>
+                                    <div class="form-group">
+                                        <label style="display: inline-block">管理员名：</label>
+                                        <input type="text"style="display: inline-block" name="search" id ="search">
+                                        <button class="btn btn_green" type="button" id="search_button">查询</button>
+                                    </div>
                                 </form>
-                                <table id="computer_list"></table>
-                                <div id="pager_list_2"></div>
+                                <table id="admin_list"></table>
+                                <div id="pager_list"></div>
                                 <div id="consoleDlg" style="display:none">
                                     <form id="consoleForm">
                                         <input type="hidden" id="selectId"/>
                                         <table class="formTable">
                                             <tr>
-                                                <th>Id</th>
-                                                <td><input type="text" class="textField" id="id" name="id" />
+                                                <th>id</th>
+                                                <td><input type="text" class="textField" id="id" name="id"   />
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>机器编号</th>
-                                                <td><input type="text" class="textField" id="computerId" name="computerId" />
+                                                <th>uid</th>
+                                                <td><input type="text" class="textField" id="uid" name="uid"  />
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>预约状态</th>
-                                                <td><input type="text" class="textField" id="isAppointment" name="isAppointment" />
+                                                <th>管理员id</th>
+                                                <td><input type="text" class="textField" id="adminId" name="adminId" />
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>使用状态</th>
-                                                <td><input type="text" class="textField" id="isUsed" name="isUsed" />
+                                                <th>所属部门</th>
+                                                <td><input type="text" class="textField" id="adminDepartment" name="adminDepartment" />
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>损坏状态</th>
-                                                <td><input type="text" class="textField" id="isDamaged" name="isDamaged" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>网咖名</th>
-                                                <td><input type="text" class="textField" id="cafeName" name="cafeName" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>每小时收费</th>
-                                                <td><input type="text" class="textField" id="level" name="level" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>吸烟区</th>
-                                                <td><input type="text" class="textField" id="isSomking" name="isSomking" />
+                                                <th>管理员姓名</th>
+                                                <td><input type="text" class="textField" id="adminName" name="adminName" />
                                                 </td>
                                             </tr>
                                         </table>
@@ -200,8 +190,8 @@
     $(document).ready(function () {
 
         // Configuration for jqGrid Example 2
-        $("#computer_list").jqGrid({
-            url: '/computer_list.action',
+        $("#admin_list").jqGrid({
+            url: '/admin_list.action',
             datatype: "json",
             ajaxGridOptions: {contentType: 'application/json; charset=utf-8'},
             height: 450,
@@ -209,20 +199,17 @@
             shrinkToFit: true,
             rowNum: 20,
             rowList: [10, 20, 30],
-            colNames:['Id','机器编号', '预约状态', '使用状态','损坏状态','网咖名','每小时收费','吸烟区'],
+            colNames:['id','uid', '管理员id', '所属部门','管理员姓名'],
             colModel:[
-                {name:'id',index:'id', editable: true, width:40, sorttype:"int",search:true},
-                {name:'computerId',index:'computerId', editable: true, width:40 , sorttype:"int",search:true},
-                {name:'isAppointment',index:'isAppointment', editable: true, width:60},
-                {name:'isUsed',index:'isUsed', editable: true, width:40},
-                {name:'isDamaged',index:'isDamaged', editable: true, width:50},
-                {name:'cafeName',index:'cafeName', editable: true, width:80},
-                {name:'level',index:'level', editable: true, width:40},
-                {name:'isSomking',index:'isSomking', editable: true, width:50}
+                {name:'id',index:'id', editable: true, width:40},
+                {name:'uid',index:'uid', editable: true, width:40},
+                {name:'adminId',index:'adminId', editable: true, width:40},
+                {name:'adminDepartment',index:'adminDepartment', editable: true, width:60},
+                {name:'adminName',index:'adminName', editable: true, width:60}
             ],
-            pager: "#pager_list_2",
+            pager: "#pager_list",
             viewrecords: true,
-            caption: "机器管理列表",
+            caption: "管理员管理列表",
             add: true,
             edit: true,
             addtext: 'Add',
@@ -231,12 +218,12 @@
         });
 
         // Add selection
-        $("#computer_list").setSelection(4, true);
+        $("#admin_list").setSelection(4, true);
 
 
         // Setup buttons
-        $("#computer_list").jqGrid('navGrid', '#pager_list_2',
-            {   edit: true,
+        $("#admin_list").jqGrid('navGrid', '#pager_list',
+            {  edit: true,
                 add: true,
                 del: true,
                 addfunc:openadd,
@@ -250,7 +237,7 @@
         // Add responsive to jqGrid
         $(window).bind('resize', function () {
             var width = $('.jqGrid_wrapper').width();
-            $('#computer_list').setGridWidth(width);
+            $('#admin_list').setGridWidth(width);
         });
 
 
@@ -322,22 +309,21 @@
     };
 
 
+
+
     var loadSelectedRowData = function(){
-        var selectedRowId = $("#computer_list").jqGrid("getGridParam", "selrow");
-        var rowData = $("#computer_list").jqGrid("getRowData",selectedRowId);
+        var selectedRowId = $("#admin_list").jqGrid("getGridParam", "selrow");
+        var rowData = $("#admin_list").jqGrid("getRowData",selectedRowId);
         if (!selectedRowId) {
             alert("请先选择需要编辑的行!");
             return false;
         } else {
             var consoleDlg = $("#consoleDlg");
             consoleDlg.find("#id").val(rowData.id);
-            consoleDlg.find("#computerId").val(rowData.computerId);
-            consoleDlg.find("#isAppointment").val(rowData.isAppointment);
-            consoleDlg.find("#isUsed").val(rowData.isUsed);
-            consoleDlg.find("#isDamaged").val(rowData.isDamaged);
-            consoleDlg.find("#cafeName").val(rowData.cafeName);
-            consoleDlg.find("#level").val(rowData.level);
-            consoleDlg.find("#isSomking").val(rowData.isSomking);
+            consoleDlg.find("#uid").val(rowData.uid);
+            consoleDlg.find("#adminId").val(rowData.adminId);
+            consoleDlg.find("#adminDepartment").val(rowData.adminDepartment);
+            consoleDlg.find("#adminName").val(rowData.adminName)
         }
     };
 
@@ -345,26 +331,20 @@
     var addItem = function(){
         var consoleDlg = $("#consoleDlg");
         var id = $.trim(consoleDlg.find("#id").val());
-        var computerId = $.trim(consoleDlg.find("#computerId").val());
-        var isAppointment = $.trim(consoleDlg.find("#isAppointment").val());
-        var isUsed = $.trim(consoleDlg.find("#isUsed").val());
-        var isDamaged = $.trim(consoleDlg.find("#isDamaged").val());
-        var cafeName = $.trim(consoleDlg.find("#cafeName").val());
-        var level = $.trim(consoleDlg.find("#level").val());
-        var isSomking = $.trim(consoleDlg.find("#isSomking").val());
+        var uid = $.trim(consoleDlg.find("#uid").val());
+        var adminId = $.trim(consoleDlg.find("#adminId").val());
+        var adminDepartment = $.trim(consoleDlg.find("#adminDepartment").val());
+        var adminName = $.trim(consoleDlg.find("#adminName").val());
 
         $.ajax({
-            url: '/computer_list/add.action',
+            url: '/admin_list/add.action',
             contentType: "application/json",
             data: JSON.stringify({
                 "id": id,
-                "computerId": computerId,
-                "isAppointment": isAppointment,
-                "isUsed": isUsed,
-                "isDamaged": isDamaged,
-                "cafeName": cafeName,
-                "level": level,
-                "isSomking": isSomking
+                "uid": uid,
+                "adminId": adminId,
+                "adminDepartment": adminDepartment,
+                "adminName":adminName
             }),
             datatype: "json",
             cache : false,
@@ -376,15 +356,12 @@
                 }else{
                     var dataRow = {
                         id: id,
-                        computerId: computerId,
-                        isAppointment: isAppointment,
-                        isUsed: isUsed,
-                        isDamaged: isDamaged,
-                        cafeName: cafeName,
-                        level: level,
-                        isSomking: isSomking
+                        uid: uid,
+                        adminId: adminId,
+                        adminDepartment: adminDepartment,
+                        adminName: adminName
                     }
-                    $("#computer_list").jqGrid('addRowData', id,dataRow, 'last');
+                    $("#admin_list").jqGrid('addRowData', id,dataRow, 'last');
                     consoleDlg.dialog("close");
                     alert("添加成功!");
                 }
@@ -400,25 +377,19 @@
     var updateItem = function(){
         var consoleDlg = $("#consoleDlg");
         var id = $.trim(consoleDlg.find("#id").val());
-        var computerId = $.trim(consoleDlg.find("#computerId").val());
-        var isAppointment = $.trim(consoleDlg.find("#isAppointment").val());
-        var isUsed = $.trim(consoleDlg.find("#isUsed").val());
-        var isDamaged = $.trim(consoleDlg.find("#isDamaged").val());
-        var cafeName = $.trim(consoleDlg.find("#cafeName").val());
-        var level = $.trim(consoleDlg.find("#level").val());
-        var isSomking = $.trim(consoleDlg.find("#isSomking").val());
+        var uid = $.trim(consoleDlg.find("#uid").val());
+        var adminId = $.trim(consoleDlg.find("#adminId").val());
+        var adminDepartment = $.trim(consoleDlg.find("#adminDepartment").val());
+        var adminName = $.trim(consoleDlg.find("#adminName").val());
         $.ajax({
-            url: '/computer_list/update.action',
+            url: '/admin_list/update.action',
             contentType: "application/json",
             data: JSON.stringify({
                 "id": id,
-                "computerId": computerId,
-                "isAppointment": isAppointment,
-                "isUsed": isUsed,
-                "isDamaged": isDamaged,
-                "cafeName": cafeName,
-                "level": level,
-                "isSomking": isSomking
+                "uid": uid,
+                "adminId": adminId,
+                "adminDepartment": adminDepartment,
+                "adminName":adminName
             }),
             datatype: "json",
             cache : false,
@@ -430,15 +401,12 @@
                 }else{
                     var dataRow = {
                         id: id,
-                        computerId: computerId,
-                        isAppointment: isAppointment,
-                        isUsed: isUsed,
-                        isDamaged: isDamaged,
-                        cafeName: cafeName,
-                        level: level,
-                        isSomking: isSomking
+                        uid: uid,
+                        adminId: adminId,
+                        adminDepartment: adminDepartment,
+                        adminName: adminName
                     }
-                    $("#computer_list").jqGrid('setRowData', id,dataRow);
+                    $("#admin_list").jqGrid('setRowData', id,dataRow);
                     consoleDlg.dialog("close");
                     alert("修改成功!");
                 }
@@ -447,30 +415,24 @@
                 alert("系统ajax交互错误: " + textStatus);
             }
         });
-    }
+    };
 
     var deleteItem = function(){
         var consoleDlg = $("#consoleDlg");
         var id = $.trim(consoleDlg.find("#id").val());
-        var computerId = $.trim(consoleDlg.find("#computerId").val());
-        var isAppointment = $.trim(consoleDlg.find("#isAppointment").val());
-        var isUsed = $.trim(consoleDlg.find("#isUsed").val());
-        var isDamaged = $.trim(consoleDlg.find("#isDamaged").val());
-        var cafeName = $.trim(consoleDlg.find("#cafeName").val());
-        var level = $.trim(consoleDlg.find("#level").val());
-        var isSomking = $.trim(consoleDlg.find("#isSomking").val());
+        var uid = $.trim(consoleDlg.find("#uid").val());
+        var adminId = $.trim(consoleDlg.find("#adminId").val());
+        var adminDepartment = $.trim(consoleDlg.find("#adminDepartment").val());
+        var adminName = $.trim(consoleDlg.find("#adminName").val());
         $.ajax({
-            url: '/computer_list/del.action',
+            url: '/admin_list/del.action',
             contentType: "application/json",
             data: JSON.stringify({
                 "id": id,
-                "computerId": computerId,
-                "isAppointment": isAppointment,
-                "isUsed": isUsed,
-                "isDamaged": isDamaged,
-                "cafeName": cafeName,
-                "level": level,
-                "isSomking": isSomking
+                "uid": uid,
+                "adminId": adminId,
+                "adminDepartment": adminDepartment,
+                "adminName":adminName
             }),
             datatype: "json",
             cache : false,
@@ -480,7 +442,7 @@
                 if (result != str1) {
                     alert("删除失败!");
                 }else{
-                    $("#computer_list").jqGrid('delRowData', id);
+                    $("#admin_list").jqGrid('delRowData', id);
                     consoleDlg.dialog("close");
                     alert("删除成功!");
                 }
@@ -495,13 +457,13 @@
     $(function(){
         $("#search_button").click(function(){
 
-            var id = $("#search").val();
-            $("#computer_list").jqGrid('clearGridData');
-            $("#computer_list").jqGrid('setGridParam',{
-                url: '/computer_one.action',
+            var name = $("#search").val();
+            $("#admin_list").jqGrid('clearGridData');
+            $("#admin_list").jqGrid('setGridParam',{
+                url: '/admin_one.action',
                 datatype: "json",
                 postData:{
-                    id: id
+                    name: name
                 },
                 page : 1
             }).trigger("reloadGrid"); //重新载入

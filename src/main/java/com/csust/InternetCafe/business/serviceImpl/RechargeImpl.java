@@ -66,15 +66,6 @@ public class RechargeImpl implements Recharge {
             logger.error(e.getMessage()+"");
             throw e;
         }
-        Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int date = c.get(Calendar.DATE);
-        String time = year + "-" + month + "-" +date;
-        EntityWrapper<EverydayBill> entityWrapper = new EntityWrapper<>();
-        entityWrapper.eq("time",time);
-        EverydayBill everydayBill = everyBillService.selectById(entityWrapper);
-
 
         RechargeRecords rechargeRecords = RechargeRecords.builder()
                 .rechargeMode(4)
@@ -84,14 +75,41 @@ public class RechargeImpl implements Recharge {
                 .id(0)
                 .updateTime(System.currentTimeMillis())
                 .build();
-        try {
-            rechargeRecordsService.insert(rechargeRecords);
-        }catch (Exception e){
-            logger.error(e.getMessage()+"");
-            throw e;
+
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int date = c.get(Calendar.DATE);
+        String time = year + "-" + month + "-" +date;
+        EntityWrapper<EverydayBill> entityWrapper = new EntityWrapper<>();
+        entityWrapper.eq("time",time);
+        EverydayBill everydayBill = everyBillService.selectById(entityWrapper);
+        if(everydayBill == null){
+            EverydayBill todayBill = EverydayBill.builder()
+                    .id(0)
+                    .saleProfit(0)
+                    .surfInternetProfit(money)
+                    .time(time)
+                    .build();
+            try {
+                everyBillService.insert(todayBill);
+                rechargeRecordsService.insert(rechargeRecords);
+            }catch (Exception e){
+                logger.error(e.getMessage()+"");
+                throw e;
+            }
+
+        }else {
+                everydayBill.setSurfInternetProfit(everydayBill.getSurfInternetProfit() + money);
+            try {
+                everyBillService.updateById(everydayBill);
+                rechargeRecordsService.insert(rechargeRecords);
+            } catch (Exception e) {
+                logger.error(e.getMessage() + "");
+                throw e;
+            }
+
         }
-
-
 
         return "success";
     }

@@ -73,7 +73,11 @@ public class MyUserDetailsService implements UserDetailsService {
         Integer role = users.getIdentityType();
         List<Permission> list = new ArrayList<>();
         EntityWrapper<Permission> queryWrapper = new  EntityWrapper<>();
+        if(role == 4){
+            queryWrapper.eq("role" , 4);
+        }else {
         queryWrapper.ne("role" ,constserver.converter(role));
+        }
         list = permissionService.selectList(queryWrapper);
         for(Permission permission : list){
             authorities.add(new SimpleGrantedAuthority(permission.getCode()));

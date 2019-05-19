@@ -61,7 +61,7 @@ public class ComputerToGridImpl implements ComputerToGrid {
         Users users = redisOrSelect.findUsers(username);
         AdminOperationRecords adminOperationRecords = AdminOperationRecords.builder()
                 .adminId(users.getUid())
-                .operationDetails("增加机器")
+                .operationDetails("增加机器"+computers.getComputerId())
                 .operationReason("增加机器")
                 .operationSurface("computers")
                 .updateTime(System.currentTimeMillis())
@@ -83,7 +83,7 @@ public class ComputerToGridImpl implements ComputerToGrid {
         Users users = redisOrSelect.findUsers(username);
         AdminOperationRecords adminOperationRecords = AdminOperationRecords.builder()
                 .adminId(users.getUid())
-                .operationDetails("更新机器")
+                .operationDetails("更新机器"+computers.getComputerId())
                 .operationReason("更新机器")
                 .operationSurface("computers")
                 .updateTime(System.currentTimeMillis())
@@ -105,7 +105,7 @@ public class ComputerToGridImpl implements ComputerToGrid {
         Users users = redisOrSelect.findUsers(username);
         AdminOperationRecords adminOperationRecords = AdminOperationRecords.builder()
                 .adminId(users.getUid())
-                .operationDetails("删除机器")
+                .operationDetails("删除机器"+id)
                 .operationReason("删除机器")
                 .operationSurface("computers")
                 .updateTime(System.currentTimeMillis())

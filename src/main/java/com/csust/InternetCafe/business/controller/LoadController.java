@@ -71,7 +71,6 @@ public class LoadController {
     @RequestMapping("/login.html")
     @PostMapping
     public String login() {
-        esSchedule.insertToEs("用户1");
         msgProducer.sendMsg("登陆请求");
         logger.info("登陆请求已经发送");
         return "login";

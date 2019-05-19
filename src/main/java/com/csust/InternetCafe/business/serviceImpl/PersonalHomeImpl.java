@@ -98,7 +98,7 @@ public class PersonalHomeImpl implements PersonalHome {
         Users admin = redisOrSelect.findUsers(username);
         AdminOperationRecords adminOperationRecords = AdminOperationRecords.builder()
                 .adminId(admin.getUid())
-                .operationDetails("更新用户")
+                .operationDetails("更新用户"+personalHomevo.getUsername())
                 .operationReason("更新用户")
                 .operationSurface("customers")
                 .updateTime(System.currentTimeMillis())

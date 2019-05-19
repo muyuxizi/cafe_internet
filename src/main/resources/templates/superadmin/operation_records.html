@@ -36,23 +36,28 @@
                     </div>
                 </li>
                 <li class="active">
-                    <a th:href="@{/admin.html}"><i class="fa fa-home"></i> <span class="nav-label">欢迎页</span></a>
+                    <a th:href="@{/superadmin.html}"><i class="fa fa-home"></i> <span class="nav-label">欢迎页</span></a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-table"></i> <span class="nav-label">查询入口</span><span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">信息查看</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a th:href="@{/admin/appointment_list.html}">历史记录表</a></li>
-                        <li><a th:href="@{/admin/temporary_appointment_list.html}">临时预约表</a></li>
-                        <li><a th:href="@{/admin/surf_record_list.html}">今日上网记录表</a></li>
-                        <li><a th:href="@{'http://localhost:9100'}">历史上网记录表</a></li>
+                        <li><a th:href="@{/superadmin/operation_records.html}">管理员操作记录查看</a></li>
+                        <li><a th:href="@{/superadmin/everyday_bill.html}">查看每日收益</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">系统管理</span>  <span class="float-right label label-primary">SPECIAL</span></a>
+                    <a href="#"><i class="fa fa-laptop"></i> <span class="nav-label">日常事务管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a th:href="@{/admin/computer_list.html}">机器管理列表</a></li>
-                        <li><a th:href="@{/admin/customers_list.html}">顾客管理列表</a></li>
-                        <li><a th:href="@{/admin/shops_list.html}">商品管理列表</a></li>
+                        <li><a th:href="@{/superadmin/permission_list.html}">权限管理</a></li>
+                        <li><a th:href="@{/superadmin/admin_list.html}">管理员设置</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">系统性能查看</span>  <span class="float-right label label-primary">SPECIAL</span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a th:href="@{'http://localhost:7001/governance/services'}">Dubbo接口查看</a></li>
+                        <li><a th:href="@{'http://localhost:15672'}">消息队列查看</a></li>
+                        <li><a th:href="@{'http://localhost:9100'}">ES查看</a></li>
                     </ul>
                 </li>
             </ul>
@@ -88,15 +93,15 @@
                     <div class="ibox">
                         <div class="ibox-content">
 
-                            <table class="table table-stripped toggle-arrow-tiny table-temporary-appointment ">
+                            <table class="table table-stripped toggle-arrow-tiny table-operation-records ">
                                 <thead>
                                 <tr>
-                                    <th>用户名</th>
-                                    <th >机器ID</th>
-                                    <th >网咖名</th>
-                                    <th >上机时间</th>
-                                    <th >下机时间</th>
-                                    <th >消费金额</th>
+                                    <th>id</th>
+                                    <th >管理员ID</th>
+                                    <th >操作表</th>
+                                    <th >操作细节</th>
+                                    <th >操作时间</th>
+                                    <th >操作理由</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -153,8 +158,8 @@
             buttons: [
                 { extend: 'copy'},
                 {extend: 'csv'},
-                {extend: 'excel', title: '历史预约记录表Excel'},
-                {extend: 'pdf', title: '历史预约记录表pdf'}
+                {extend: 'excel', title: '管理员操作记录Excel'},
+                {extend: 'pdf', title: '管理员操作记录pdf'}
             ]
 
         });
@@ -175,9 +180,9 @@
 
     function getAllTypesInfo() {
         $.ajax({
-            url: '/surf_record.action',
+            url: '/operation_records.action',
             success: function (data) {
-                table = $('.table-temporary-appointment').DataTable({
+                table = $('.table-operation-records').DataTable({
                     pageLength: 10,
                     responsive: true,
                     dom: '<"html5buttons"B>lTfgitp',
@@ -199,19 +204,24 @@
                     buttons: [
                         { extend: 'copy'},
                         {extend: 'csv'},
-                        {extend: 'excel', title: '历史预约记录表Excel'},
-                        {extend: 'pdf', title: '历史预约记录表pdf'}
+                        {extend: 'excel', title: '管理员操作Excel'},
+                        {extend: 'pdf', title: '管理员操作记录表pdf'}
                     ],
                     data: data,
                     columns: [
-                        {data: "username"},
-                        {data: "computerId"},
-                        {data: "cafeName"},
-                        {data: "startTime"},
-                        {data: "endTime"},
-                        {data: "consumptionAmount"}
+                        {data: "id"},
+                        {data: "adminId"},
+                        {data: "operationSurface"},
+                        {data: "operationDetails"},
+                        {data: "updateTime"},
+                        {data: "operationReason"}
                     ]
                 });
+
+
+
+
+
             }
         });
     }
