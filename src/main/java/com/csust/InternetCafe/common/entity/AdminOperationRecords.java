@@ -28,7 +28,7 @@ public class AdminOperationRecords {
     private Integer id;
 
     @TableId(value = "admin_id")
-    private Integer adminId;
+    private Long adminId;
 
     @TableId(value = "operation_surface")
     private String operationSurface;

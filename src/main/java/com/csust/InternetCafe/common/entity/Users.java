@@ -8,8 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.math.BigInteger;
-
 /**
  * @Author: 小凯神
  * @Date: 2019-02-26 18:38
@@ -26,7 +24,7 @@ public class Users {
     private Integer id;
 
     @TableId(value = "uid")
-    private Integer uid;
+    private Long uid;
 
     @TableId(value = "username")
     private String username;
@@ -35,7 +33,7 @@ public class Users {
     private String password;
 
     @TableId(value = "telephone_number")
-    private Integer telephoneNumber;
+    private Long telephoneNumber;
 
     @TableId(value = "identity_type")
     private Integer identityType;

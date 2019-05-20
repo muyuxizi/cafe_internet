@@ -47,7 +47,7 @@ public class AdminManageImpl implements AdminManage {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String add(Admin admin) {
-        int uid = admin.getUid();
+        Long uid = admin.getUid();
         EntityWrapper<Users> entityWrapper = new EntityWrapper<>();
         entityWrapper.eq("uid" , uid);
         Users users = userService.selectOne(entityWrapper);
@@ -95,7 +95,7 @@ public class AdminManageImpl implements AdminManage {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String del(int uid ,int id) {
+    public String del(Long uid ,int id) {
         EntityWrapper<Users> usersEntityWrapper = new EntityWrapper<>();
         usersEntityWrapper.eq("uid",uid);
         try {

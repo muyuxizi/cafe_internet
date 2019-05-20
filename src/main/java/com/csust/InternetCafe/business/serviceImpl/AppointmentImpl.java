@@ -57,7 +57,7 @@ public class AppointmentImpl implements Appointment {
     @Transactional(rollbackFor = Exception.class)
     public String appointmentComputer(String username , Appointmentvo appointmentvo) {
 
-        int uid = redisOrSelect.findUsers(username).getUid();
+        Long uid = redisOrSelect.findUsers(username).getUid();
 
         StringBuffer stringBuffer = new StringBuffer("");
 

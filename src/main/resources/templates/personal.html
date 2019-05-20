@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>个人信息主页</title>
+
+    <link th:href="@{/static/admins/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/static/admins/font-awesome/css/font-awesome.css}" rel="stylesheet">
+    <link th:href="@{/static/admins/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/static/admins/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/static/admins/css/style.css}" rel="stylesheet">
+
+    <link th:href="@{/static/admins/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css}" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+
+
+
+<div id="page-wrapper" class="gray-bg">
+    <div class="row border-bottom">
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <span class="m-r-sm text-muted welcome-message">欢迎来到本网咖</span>
+                </li>
+
+
+                <li>
+                    <a href="http://localhost:8080/index.html">
+                        <i class="fa fa-sign-out"></i>回到主页
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+    </div>
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>个人信息表单</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="index.html">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a>Forms</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <strong>Basic Form</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>个人信息表 <small></small></h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="#" class="dropdown-item">Config option 1</a>
+                            </li>
+                            <li><a href="#" class="dropdown-item">Config option 2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                        <div class="form-group  row"><label class="col-sm-2 col-form-label">用户名</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  readonly="readonly" name="username" id="username"  >
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group row"><label class="col-sm-2 col-form-label">账户余额</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  readonly="readonly" name = "accountMoney" id="accountMoney">
+                                <span class="form-text m-b-none">账户余额不能修改</span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group row"><label class="col-sm-2 col-form-label">使用状态</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  readonly="readonly" name="isUsed" id="isUsed">
+                                <span class="form-text m-b-none">使用状态不能修改</span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group row"><label class="col-sm-2 col-form-label">预约状态</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  readonly="readonly" name="isAppointment" id="isAppointment">
+                                <span class="form-text m-b-none">预约状态不能修改</span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group row"><label class="col-sm-2 col-form-label">电话号码</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"   name="telephoneNumber" id="telephoneNumber">
+                                <span class="form-text m-b-none">电话不能修改</span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group row"><label class="col-sm-2 col-form-label">生日</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  name="birthday" id="birthday">
+                                <span class="form-text m-b-none">请以1997-08-23格式输入</span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary btn-sm" id="sign-up" type="submit">保存</button>
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+</div>
+
+
+<!-- Mainly scripts -->
+<script th:src="@{/static/admins/js/jquery-3.1.1.min.js}"></script>
+<script th:src="@{/static/admins/js/popper.min.js}"></script>
+<script th:src="@{/static/admins/js/bootstrap.js}"></script>
+<script th:src="@{/static/admins/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/static/admins/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/static/admins/js/inspinia.js}"></script>
+<script th:src="@{/static/admins/js/plugins/pace/pace.min.js}"></script>
+
+<!-- iCheck -->
+<script th:src="@{/static/admins/js/plugins/iCheck/icheck.min.js}"></script>
+<script>
+    $(document).ready(function () {
+
+
+        $.ajax({
+            type: "GET",
+            url: '/index/information',
+            success: function (personalHomevo) {
+
+                $("#username").attr('value',personalHomevo.username);
+                $("#accountMoney").attr('value',personalHomevo.accountMoney);
+                $("#isUsed").attr('value',personalHomevo.isUsed);
+                $("#isAppointment").attr('value',personalHomevo.isAppointment);
+                $("#telephoneNumber").attr('value',personalHomevo.telephoneNumber);
+                $("#birthday").attr('value',personalHomevo.birthday)
+            },error : function(textStatus, e) {
+                alert("查询失败 ");
+            }
+        });
+
+
+
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+
+        $('#sign-up').on('click',function () {
+            console.log("console");
+            var userName = document.getElementById("userName").value;
+            var passWord = document.getElementById("passWord").value;
+            var rePassWord = document.getElementById("rePassWord").value;
+            var telephone = document.getElementById("telephone").value;
+            var idCard = document.getElementById("idCard").value;
+            var birthday = document.getElementById("birthday").value;
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '/register.html',
+                contentType: "application/json",
+                data:JSON.stringify({
+                    "userName": userName,
+                    "passWord": passWord,
+                    "rePassWord" :rePassWord,
+                    "telephone":telephone,
+                    "idCard":idCard,
+                    "birthday":birthday
+                }),
+                success: function (result) {
+                    var str1 = "success";
+                    if(result != str1) {
+                        $("#resultto").text(result);
+                    }else {
+                        console.log("跳转页面");
+                        window.location.href = "http://localhost:8080/login.html";
+                    }
+                }
+            });
+        });
+
+    });
+</script>
+</body>
+
+</html>

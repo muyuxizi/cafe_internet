@@ -47,7 +47,7 @@ public class InitializtionImpl implements Initialization {
     private static Logger logger = LogManager.getLogger("HelloLog4j");
 
     @Override
-    public void LoadToRedis(int uid, int identity) {
+    public void LoadToRedis(Long uid, int identity) {
         if(identity == Const.Customers_Identity){
             EntityWrapper<Customers> queryWrapper = new  EntityWrapper<>();
             queryWrapper.eq("uid" , uid);

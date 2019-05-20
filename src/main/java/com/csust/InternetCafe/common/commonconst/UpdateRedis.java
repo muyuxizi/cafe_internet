@@ -31,13 +31,13 @@ public class UpdateRedis {
     @Resource
     private Initialization initialization;
 
-    public void UpdateCustomers (int uid , Customers customers){
+    public void UpdateCustomers (Long uid , Customers customers){
         String value = new Gson().toJson(customers);
         redisService.set(Const.Redis_Customers+String.valueOf(uid) , value);
         logger.info("已将"+ customers.toString() +"的缓存更新");
     }
 
-    public void UpdateAdmins (int uid , Admin admin){
+    public void UpdateAdmins (Long uid , Admin admin){
         String value = new Gson().toJson(admin);
         redisService.set(Const.Redis_Admin+String.valueOf(uid) , admin);
         logger.info("已将" + admin.toString() +"的缓存更新");

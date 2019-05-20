@@ -20,7 +20,7 @@ public class EsSurfInternetRecords {
 
     private  Integer computerId;
 
-    private  Integer uid;
+    private  Long uid;
 
     private  String username;
 

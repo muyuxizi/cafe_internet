@@ -20,7 +20,7 @@ public class Admin {
     private Integer id;
 
     @TableId(value = "uid")
-    private Integer uid;
+    private Long uid;
 
     @TableId(value = "admin_id")
     private Integer adminId;

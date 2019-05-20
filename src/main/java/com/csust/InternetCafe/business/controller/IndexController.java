@@ -58,4 +58,9 @@ public class IndexController {
         return "index";
     }
 
+    @RequestMapping(value = "/personal.html")
+    @GetMapping
+    public String person(){
+        return "personal";
+    }
 }

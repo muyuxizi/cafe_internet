@@ -47,7 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/error.html")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login.html");
+                .logoutSuccessUrl("/error.html");
+
                 //.and()
               //  .sessionManagement()
                 //.invalidSessionUrl("/login/timeout");

@@ -24,7 +24,7 @@ public class Registervo {
 
         private String rePassWord;
 
-        private Integer telephone;
+        private Long telephone;
 
         private String idCard;
 

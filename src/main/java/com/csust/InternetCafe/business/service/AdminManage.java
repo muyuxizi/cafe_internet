@@ -18,5 +18,5 @@ public interface AdminManage {
 
     public String update(Admin admin);
 
-    public String del(int uid , int id);
+    public String del(Long uid , int id);
 }

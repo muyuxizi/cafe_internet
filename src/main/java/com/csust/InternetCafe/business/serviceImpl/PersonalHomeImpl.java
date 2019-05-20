@@ -3,6 +3,7 @@ package com.csust.InternetCafe.business.serviceImpl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.csust.InternetCafe.business.service.PersonalHome;
 import com.csust.InternetCafe.business.vo.PersonalHomevo;
+import com.csust.InternetCafe.common.commonconst.Const;
 import com.csust.InternetCafe.common.commonconst.RedisOrSelect;
 import com.csust.InternetCafe.common.commonconst.UpdateRedis;
 import com.csust.InternetCafe.common.entity.AdminOperationRecords;
@@ -57,7 +58,7 @@ public class PersonalHomeImpl implements PersonalHome {
     @Override
     public PersonalHomevo getinformation(String username) {
         Users users = redisOrSelect.findUsers(username);
-        int uid = users.getUid();
+        Long uid = users.getUid();
         Customers customers = redisOrSelect.findCustomers(uid);
         PersonalHomevo personalHomevo = PersonalHomevo.builder()
                 .accountMoney(customers.getAccountMoney())
@@ -96,6 +97,7 @@ public class PersonalHomeImpl implements PersonalHome {
     @Transactional(rollbackFor = Exception.class)
     public String update(String username ,PersonalHomevo personalHomevo) {
         Users admin = redisOrSelect.findUsers(username);
+        if(admin.getIdentityType() == Const.Admin_Identity){
         AdminOperationRecords adminOperationRecords = AdminOperationRecords.builder()
                 .adminId(admin.getUid())
                 .operationDetails("更新用户"+personalHomevo.getUsername())
@@ -107,7 +109,7 @@ public class PersonalHomeImpl implements PersonalHome {
 
         Users users = redisOrSelect.findUsers(personalHomevo.getUsername());
         users.setBirthday(personalHomevo.getBirthday());
-        users.setTelephoneNumber(Integer.valueOf(personalHomevo.getTelephoneNumber()));
+        users.setTelephoneNumber(Long.valueOf(personalHomevo.getTelephoneNumber()));
         Customers customers = redisOrSelect.findCustomers(users.getUid());
         customers.setIsAppointment(personalHomevo.getIsAppointment());
         customers.setIsUsed(personalHomevo.getIsUsed());
@@ -120,6 +122,16 @@ public class PersonalHomeImpl implements PersonalHome {
             return "success";
         }catch (Exception e){
             throw e;
+        }
+        }else {
+            admin.setTelephoneNumber(Long.valueOf(personalHomevo.getTelephoneNumber()));
+            admin.setBirthday(personalHomevo.getBirthday());
+            try {
+                userService.updateById(admin);
+                return "success";
+            }catch (Exception e){
+                throw e;
+            }
         }
 
     }

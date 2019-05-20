@@ -57,7 +57,7 @@ public class RechargeImpl implements Recharge {
         int actualRechargeMoney = aConst.moneyConverter(money);
 
         Users users = redisOrSelect.findUsers(username);
-        int uid = users.getUid();
+        Long uid = users.getUid();
         Customers customers = redisOrSelect.findCustomers(uid);
         customers.setAccountMoney(customers.getAccountMoney() + actualRechargeMoney);
         try {

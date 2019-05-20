@@ -58,7 +58,7 @@ public class ActivationImpl implements Activation {
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
 
-        int uid = redisOrSelect.findUsers(username).getUid();
+        Long uid = redisOrSelect.findUsers(username).getUid();
 
         Computers computers = redisOrSelect.findComputers(computerId);
 
@@ -167,7 +167,7 @@ public class ActivationImpl implements Activation {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public void insertToSurf(Computers computers , Customers customers , int uid, int computerid ){
+    public void insertToSurf(Computers computers , Customers customers , Long uid, int computerid ){
         customers.setIsUsed(Const.Is_Used);
         computers.setIsUsed(Const.Is_Used);
         try {

@@ -26,7 +26,7 @@ public class RechargeRecords {
     private Integer id;
 
     @TableId(value = "uid")
-    private Integer uid;
+    private Long uid;
 
     @TableId(value = "actual_recharge_money")
     private Integer actualRechargeMoney;

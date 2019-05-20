@@ -25,7 +25,7 @@ public class Customers {
     private Integer id;
 
     @TableId(value = "uid")
-    private Integer uid;
+    private Long uid;
 
     @TableId(value = "account_money")
     private Integer accountMoney;

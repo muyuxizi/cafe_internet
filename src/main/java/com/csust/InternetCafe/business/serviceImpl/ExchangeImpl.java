@@ -45,7 +45,7 @@ public class ExchangeImpl implements Exchange {
     public String exchange(String username, int oldComputer, int newComputer) {
 
 
-        int uid = redisOrSelect.findUsers(username).getUid();
+        Long uid = redisOrSelect.findUsers(username).getUid();
 
         Customers customers = redisOrSelect.findCustomers(uid);
 

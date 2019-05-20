@@ -86,10 +86,10 @@ public class LoadAndRegisterImpl implements LoadAndRegister {
         Users users = Users.builder()
                 .id(0)
                 .lastLoginTime(null)
-                .uid(Integer.valueOf(registervo.getTelephone()))
+                .uid(Long.valueOf(registervo.getTelephone()))
                 .birthday(registervo.getBirthday())
                 .username(registervo.getUserName())
-                .password( new BCryptPasswordEncoder().encode(registervo.getPassWord()))
+                .password( registervo.getPassWord())
                 .idCard(registervo.getIdCard())
                 .identityType(1)
                 .telephoneNumber(registervo.getTelephone())
@@ -99,7 +99,7 @@ public class LoadAndRegisterImpl implements LoadAndRegister {
             Customers customers = Customers.builder()
                     .id(0)
                     .accountMoney(0)
-                    .uid(Integer.valueOf(registervo.getTelephone()))
+                    .uid(registervo.getTelephone())
                     .isAppointment("no")
                     .isUsed("no")
                     .build();
@@ -115,7 +115,7 @@ public class LoadAndRegisterImpl implements LoadAndRegister {
                     .id(0)
                     .adminId(null)
                     .adminDepartment("department")
-                    .uid(Integer.valueOf(registervo.getIdCard()))
+                    .uid(Long.valueOf(registervo.getTelephone()))
                     .adminName(registervo.getUserName())
                     .build();
                     try {

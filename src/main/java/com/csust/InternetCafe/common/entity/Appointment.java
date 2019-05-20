@@ -26,7 +26,7 @@ public class Appointment {
     private Integer id;
 
     @TableId(value = "uid")
-    private Integer uid;
+    private Long uid;
 
     @TableId(value = "computer_id")
     private Integer computerId;

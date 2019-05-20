@@ -27,7 +27,7 @@ public class SurfInternetRecords {
     private Integer computerId;
 
     @TableId(value = "uid")
-    private Integer uid;
+    private Long uid;
 
     @TableId(value = "start_time")
     private Long startTime;

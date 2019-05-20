@@ -62,7 +62,7 @@ public class RedisOrSelect {
         return  users;
     }
 
-    public Users findUsers(int uid){
+    public Users findUsers(Long uid){
         Users users = null;
         EntityWrapper<Users> newWrapper = new  EntityWrapper<>();
         newWrapper.eq("uid" , uid);
@@ -70,7 +70,7 @@ public class RedisOrSelect {
         return  users;
     }
 
-    public Customers findCustomers(int uid){
+    public Customers findCustomers(Long uid){
         Customers customers = null;
         String jsonString = String.valueOf(redisService.get(Const.Redis_Customers+String.valueOf(uid)));
         customers = new Gson().fromJson(jsonString , Customers.class);
