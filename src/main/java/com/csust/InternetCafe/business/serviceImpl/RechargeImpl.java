@@ -83,7 +83,7 @@ public class RechargeImpl implements Recharge {
         String time = year + "-" + month + "-" +date;
         EntityWrapper<EverydayBill> entityWrapper = new EntityWrapper<>();
         entityWrapper.eq("time",time);
-        EverydayBill everydayBill = everyBillService.selectById(entityWrapper);
+        EverydayBill everydayBill = everyBillService.selectOne(entityWrapper);
         if(everydayBill == null){
             EverydayBill todayBill = EverydayBill.builder()
                     .id(0)

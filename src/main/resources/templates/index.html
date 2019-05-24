@@ -127,7 +127,7 @@
                 <small>INSPINIA</small>
                 <h2>充值 </h2>
                 <p>本网咖有充值赠送活动，充值十元赠送五元，充值一百元赠送一百元，充值一千元赠送两千元</p>
-                <a href="" class="btn btn-primary">前往</a>
+                <a th:href="@{/recharge.html}" class="btn btn-primary">前往</a>
             </div>
             <div class="col-lg-6 text-right m-t-n-lg wow zoomIn">
                 <img th:src="@{/static/customers/img/iphone.jpg}" class="img-fluid" alt="dashboard">
@@ -159,7 +159,30 @@
                             <h2>激活</h2>
                             <p>输入你想上网的机器号就能上网了
                             </p>
-                            <a href="#" class="btn btn-xs btn-primary"> 前往</a>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                点击我
+                            </button>
+                            <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content animated bounceInRight">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <i class="fa fa-laptop modal-icon"></i>
+                                            <h4 class="modal-title">激活</h4>
+                                            <small class="font-bold">欢迎来到本网咖.</small>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><strong>请输入</strong> 您想上网的机器编号.</p>
+                                            <div class="form-group"><label>Sample Input</label> <input type="text" id="computerid"  placeholder="Enter computer Id" class="form-control"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                            <button type="button" class="btn btn-primary" id = "ac_button">确定</button>
+                                            <span id="resultto"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <span class="vertical-date"> 激活 <br/> <small>activation</small> </span>
                         </div>
                     </div>
@@ -172,7 +195,30 @@
                         <div class="vertical-timeline-content">
                             <h2>结账</h2>
                             <p>输入你正在上网的机器号就能顺利下机结账了</p>
-                            <a href="#" class="btn btn-xs btn-primary"> 前往</a>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">
+                                点击我
+                            </button>
+                            <div class="modal inmodal" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content animated bounceInRight">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <i class="fa fa-laptop modal-icon"></i>
+                                            <h4 class="modal-title">结账</h4>
+                                            <small class="font-bold">欢迎来到本网咖.</small>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><strong>请输入</strong> 您正在上网的机器编号.</p>
+                                            <div class="form-group"><label>Sample Input</label> <input type="text" id="computerid1"  placeholder="Enter computer Id" class="form-control"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                            <button type="button" class="btn btn-primary" id = "xiaji_button">确定</button>
+                                            <span id="resultto1"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <span class="vertical-date"> 结账<br/> <small>Settle accounts</small> </span>
                         </div>
                     </div>
@@ -185,7 +231,30 @@
                         <div class="vertical-timeline-content">
                             <h2>换机</h2>
                             <p>如果你换机，可以输入你正在上网的机器以及想换的机器就能完成换机 </p>
-                            <a href="#" class="btn btn-xs btn-primary"> 前往</a>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+                                请点击我
+                            </button>
+                            <div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content animated flipInY">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <h4 class="modal-title">换机</h4>
+                                            <small class="font-bold">欢迎来到本网咖.</small>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><strong>请输入</strong> 您正在使用的机器编号以及您想更换的机器编号</p>
+                                            <div class="form-group"><label>Sample Input</label> <input type="text" id="oldcomputerid"  placeholder="Enter computer Id" class="form-control"></div>
+                                            <div class="form-group"><label>Sample Input</label> <input type="text" id="newcomputerid"  placeholder="Enter computer Id" class="form-control"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                            <button type="button" class="btn btn-primary" id="exchange">确定</button>
+                                            <span id="resultto2"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <span class="vertical-date"> 换机 <br/> <small>Replacement</small> </span>
                         </div>
                     </div>
@@ -313,6 +382,64 @@
 
     })();
 
+
+    $(function(){
+        $("#ac_button").click(function(){
+            var computerId = $("#computerid").val();
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '/activation.action',
+                contentType: "application/json",
+                datatype: "json",
+                data:JSON.stringify({
+                    computerId: computerId
+                }),
+                success: function (result) {
+                    $("#resultto").text(result);
+                }
+
+            });
+        });
+
+        $("#xiaji_button").click(function(){
+            var computerId = $("#computerid1").val();
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '/activation.action',
+                contentType: "application/json",
+                datatype: "json",
+                data:JSON.stringify({
+                    computerId: computerId
+                }),
+                success: function (result) {
+                    $("#resultto1").text(result);
+                }
+
+            });
+        });
+
+        $("#exchange").click(function(){
+            var oldcomputer = $("#oldcomputerid").val();
+            var newcomputer = $("#newcomputerid").val();
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '/exchange.action',
+                contentType: "application/json",
+                datatype: "json",
+                data:JSON.stringify({
+                    oldcomputer: oldcomputer,
+                    newcomputer:  newcomputer
+                }),
+                success: function (result) {
+                    $("#resultto2").text(result);
+                }
+
+            });
+        });
+    });
     // Activate WOW.js plugin for animation on scrol
     new WOW().init();
 

@@ -14,10 +14,12 @@ import com.csust.InternetCafe.common.service.CustomersService;
 import com.csust.InternetCafe.common.service.SurfInternetRecordsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
+@Service
 public class ExchangeImpl implements Exchange {
 
     private static Logger logger = LogManager.getLogger("HelloLog4j");

@@ -26,8 +26,7 @@ public class IndexController {
     @Resource
     private RedisOrSelect redisOrSelect;
 
-    @Resource
-    private Recharge recharge;
+
 
     @Resource
     private Appointment appointment;
@@ -40,14 +39,6 @@ public class IndexController {
     }
 
 
-    @PreAuthorize("hasAnyAuthority('recharge')")
-    @RequestMapping(value = "/pay.action")
-    @PostMapping
-    public String recharge(Authentication authentication , HttpServletRequest request){
-        String message = recharge.recharge(authentication.getName() , Integer.valueOf(request.getParameter("money")));
-        logger.info(message);
-        return "index";
-    }
 
     @PreAuthorize("hasAnyAuthority('appointment')")
     @RequestMapping(value = "/appointment,action")
@@ -63,4 +54,8 @@ public class IndexController {
     public String person(){
         return "personal";
     }
+
+    @RequestMapping(value = "/recharge.html")
+    @GetMapping
+    public String recharge(){return "recharge";}
 }

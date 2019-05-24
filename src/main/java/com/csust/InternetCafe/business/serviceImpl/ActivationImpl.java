@@ -142,6 +142,8 @@ public class ActivationImpl implements Activation {
             .eq("consumption_amount",0)
             .eq("uid",uid);
             surfInternetRecords = surfInternetRecordsService.selectOne(entityWrapper);
+            if(surfInternetRecords == null)
+            {return "请输入您当前正确上机的机器";}
             long minute = System.currentTimeMillis()/60000 - surfInternetRecords.getStartTime()/60000;
             Integer number = (int)( minute/30 + 1);
 

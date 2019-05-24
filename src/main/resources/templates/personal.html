@@ -39,7 +39,7 @@
 
 
                 <li>
-                    <a href="http://localhost:8080/index.html">
+                    <a href="http://localhost:8080/index">
                         <i class="fa fa-sign-out"></i>回到主页
                     </a>
                 </li>
@@ -125,7 +125,7 @@
                         <div class="form-group row"><label class="col-sm-2 col-form-label">电话号码</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control"   name="telephoneNumber" id="telephoneNumber">
-                                <span class="form-text m-b-none">电话不能修改</span>
+                                <span class="form-text m-b-none">注意输入正确位数电话号码</span>
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
@@ -198,32 +198,31 @@
 
         $('#sign-up').on('click',function () {
             console.log("console");
-            var userName = document.getElementById("userName").value;
-            var passWord = document.getElementById("passWord").value;
-            var rePassWord = document.getElementById("rePassWord").value;
-            var telephone = document.getElementById("telephone").value;
-            var idCard = document.getElementById("idCard").value;
+            var username = document.getElementById("username").value;
+            var accountMoney = document.getElementById("accountMoney").value;
+            var isUsed = document.getElementById("isUsed").value;
+            var isAppointment = document.getElementById("isAppointment").value;
+            var telephoneNumber = document.getElementById("telephoneNumber").value;
             var birthday = document.getElementById("birthday").value;
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: '/register.html',
+                url: 'customers_list/update.action',
                 contentType: "application/json",
                 data:JSON.stringify({
-                    "userName": userName,
-                    "passWord": passWord,
-                    "rePassWord" :rePassWord,
-                    "telephone":telephone,
-                    "idCard":idCard,
-                    "birthday":birthday
+                    "username": username,
+                    "accountMoney": accountMoney,
+                    "isUsed" :isUsed,
+                    "isAppointment":isAppointment,
+                    "telephoneNumber":telephoneNumber,
+                    "birthday": birthday
                 }),
                 success: function (result) {
                     var str1 = "success";
                     if(result != str1) {
                         $("#resultto").text(result);
                     }else {
-                        console.log("跳转页面");
-                        window.location.href = "http://localhost:8080/login.html";
+                        alert("修改成功!");
                     }
                 }
             });

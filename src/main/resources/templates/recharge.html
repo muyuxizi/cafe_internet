@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>充值</title>
+
+    <link th:href="@{/static/admins/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/static/admins/font-awesome/css/font-awesome.css}" rel="stylesheet">
+
+    <link th:href="@{/static/admins/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/static/admins/css/style.css}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+
+<div class="lock-word animated fadeInDown">
+
+</div>
+<div class="middle-box text-center lockscreen animated fadeInDown">
+    <div>
+        <div class="m-b-md">
+            <img alt="image" class="rounded-circle circle-border" th:src="@{https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg}">
+        </div>
+        <h3>ZENG KAI</h3>
+        <p>欢迎来到充值界面，本网咖有着充值十元赠送五元，充值一百送一百，充值一千送两千的优惠活动</p>
+        <div class="form-group">
+            <input type="text" id="money" class="form-control" placeholder="请输入金额" >
+        </div>
+        <button type="submit" id="recharge" class="btn btn-primary block full-width">确定</button>
+        <span id="resultto"></span>
+    </div>
+</div>
+
+
+<!-- Mainly scripts -->
+<script th:src="@{/static/admins/js/jquery-3.1.1.min.js}"></script>
+<script th:src="@{/static/admins/js/popper.min.js}"></script>
+<script th:src="@{/static/admins/js/bootstrap.js}"></script>
+<script >
+    $(function () {
+        $('#recharge').on('click',function () {
+            var money = $("#money").val();
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '/pay.action',
+                contentType: "application/json",
+                datatype: "json",
+                data:JSON.stringify({
+                    money: money
+
+                }),
+                success: function (result) {
+                    var str1 = "success";
+                    if(result != str1) {
+                        $("#resultto").text(result);
+                    }else {
+                        console.log("跳转页面");
+                        window.location.href = "http://localhost:8080/index";
+                    }
+                }
+            });
+        });
+    });
+</script>
+</body>
+
+</html>
