@@ -1,13 +1,8 @@
 package com.csust.InternetCafe.business.controller;
 
-import com.csust.InternetCafe.business.service.Activation;
-import com.csust.InternetCafe.business.service.Exchange;
-import com.csust.InternetCafe.business.service.LoadAndRegister;
-import com.csust.InternetCafe.business.service.Recharge;
-import com.csust.InternetCafe.business.vo.Activationvo;
-import com.csust.InternetCafe.business.vo.Exchangevo;
-import com.csust.InternetCafe.business.vo.Rechargevo;
-import com.csust.InternetCafe.business.vo.Registervo;
+import com.csust.InternetCafe.business.ajax.AppointmentAjaxImpl;
+import com.csust.InternetCafe.business.service.*;
+import com.csust.InternetCafe.business.vo.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +36,13 @@ public class UsersRestController {
 
     @Resource
     private Exchange exchange;
+
+
+    @Resource
+    private Appointment appointment;
+
+    @Resource
+    private AppointmentAjaxImpl appointmentAjax;
 
     private static Logger logger = LogManager.getLogger("HelloLog4j");
 
@@ -77,5 +81,30 @@ public class UsersRestController {
         String result = recharge.recharge(authentication.getName() , rechargevo.getMoney());
         logger.info(result);
         return result;
+    }
+
+    @RequestMapping(value = "/loadsetts")
+    @PostMapping
+    public List<Integer> get(@RequestBody Choicevo choicevo){
+        List<Integer> list = new ArrayList<>();
+        list = appointmentAjax.findseats(choicevo.getStart() , choicevo.getEnd() , "wangyu" , choicevo.getSomking());
+        return list;
+    }
+
+    @RequestMapping(value = "/judgeTime")
+    @PostMapping
+    public String juege(@RequestBody Choicevo choicevo){
+        String result ="";
+        result = appointmentAjax.judgeTime(choicevo.getStart() , choicevo.getEnd());
+        return result;
+    }
+
+    @PreAuthorize("hasAnyAuthority('appointment')")
+    @RequestMapping(value = "/appointment,action")
+    @PostMapping
+    public String appointment(Authentication authentication ,@RequestBody Appointmentvo appointmentvo){
+        String message = appointment.appointmentComputer(authentication.getName() , appointmentvo);
+        logger.info(message);
+        return message;
     }
 }

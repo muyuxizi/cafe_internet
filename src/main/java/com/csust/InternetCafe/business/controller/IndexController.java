@@ -26,10 +26,7 @@ public class IndexController {
     @Resource
     private RedisOrSelect redisOrSelect;
 
-
-
-    @Resource
-    private Appointment appointment;
+    ;
 
     @PreAuthorize("hasAnyAuthority('read_index')")
     @GetMapping("/index")
@@ -40,14 +37,7 @@ public class IndexController {
 
 
 
-    @PreAuthorize("hasAnyAuthority('appointment')")
-    @RequestMapping(value = "/appointment,action")
-    @PostMapping
-    public String appointment(Authentication authentication ,@RequestBody Appointmentvo appointmentvo){
-        String message = appointment.appointmentComputer(authentication.getName() , appointmentvo);
-        logger.info(message);
-        return "index";
-    }
+
 
     @RequestMapping(value = "/personal.html")
     @GetMapping
@@ -58,4 +48,8 @@ public class IndexController {
     @RequestMapping(value = "/recharge.html")
     @GetMapping
     public String recharge(){return "recharge";}
+
+    @RequestMapping(value = "/appointment.html")
+    @GetMapping
+    public String appointmenth(){return "appointment";}
 }

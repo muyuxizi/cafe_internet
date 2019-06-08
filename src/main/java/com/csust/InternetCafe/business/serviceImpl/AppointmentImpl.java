@@ -69,7 +69,7 @@ public class AppointmentImpl implements Appointment {
         if(!appointmentvo.getIsSmoking().equals(computers.getIsSomking())){return "Sorry,该吸烟区不符合要求";}
 
         //验证两个数据是否合理
-        if(appointmentvo.getStartTime()>23 || appointmentvo.getStartTime() <8 || appointmentvo.getEndTime() >23 || appointmentvo.getEndTime() < 9)
+        if(appointmentvo.getStartTime()>23 || appointmentvo.getStartTime() <8 || appointmentvo.getEndTime() >23 || appointmentvo.getEndTime() < 9 || appointmentvo.getStartTime() >= appointmentvo.getEndTime())
         {return  "预约时间错误";}
 
         //预定时间必须大于等于三小时

@@ -4,12 +4,10 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.csust.InternetCafe.business.service.Activation;
 import com.csust.InternetCafe.common.commonconst.Const;
 import com.csust.InternetCafe.common.commonconst.RedisOrSelect;
-import com.csust.InternetCafe.common.entity.Computers;
-import com.csust.InternetCafe.common.entity.Customers;
-import com.csust.InternetCafe.common.entity.SurfInternetRecords;
-import com.csust.InternetCafe.common.entity.Users;
+import com.csust.InternetCafe.common.entity.*;
 import com.csust.InternetCafe.common.service.CustomersService;
 import com.csust.InternetCafe.common.service.SurfInternetRecordsService;
+import com.csust.InternetCafe.common.service.TemporaryAppointmentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -29,6 +28,9 @@ public class AccountCheck {
 
     @Resource
     private CustomersService customersService;
+
+    @Resource
+    private TemporaryAppointmentService temporaryAppointmentService;
 
     @Resource
     private SurfInternetRecordsService surfInternetRecordsService;
@@ -69,5 +71,20 @@ public class AccountCheck {
         }
     }
 
+    @Scheduled(cron = "0 0 * * * ?")
+    public void appointmentCheck(){
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        List<TemporaryAppointment> temporaryAppointmentList = new ArrayList<>();
+        EntityWrapper<TemporaryAppointment> temporaryAppointmentEntityWrapper = new EntityWrapper<>();
+        temporaryAppointmentEntityWrapper.eq("appointment_start_time" , hour);
+        for(TemporaryAppointment temporaryAppointment : temporaryAppointmentList){
+            Customers customers = redisOrSelect.findCustomers(temporaryAppointment.getUid());
+            Users users = redisOrSelect.findUsers(customers.getUid());
+            if(customers.getIsUsed().equals(Const.Is_Not_Used)){
+                activation.activation(users.getUsername() , temporaryAppointment.getComputerId());
+            }
+        }
+    }
 
 }
