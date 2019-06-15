@@ -9,4 +9,6 @@ import com.csust.InternetCafe.business.vo.Appointmentvo;
  */
 public interface appointmentdubbo {
     public String appointment(String username , Appointmentvo appointmentvo);
+
+    public String recharge(String username , int money);
 }

@@ -58,6 +58,7 @@ public class UsersRestController {
         return result;
     }
 
+    @PreAuthorize("hasAnyAuthority('activation')")
     @RequestMapping(value = "/activation.action")
     @PostMapping
     public String activationOrSettlement(Authentication authentication , @RequestBody Activationvo activationvo){

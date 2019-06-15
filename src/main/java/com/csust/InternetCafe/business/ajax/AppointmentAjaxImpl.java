@@ -71,7 +71,7 @@ public class AppointmentAjaxImpl {
 
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
-        if(start > hour) {return "预约开始时间不正确";}
+        if(start <= hour) {return "预约开始时间不正确";}
         if(start >= end){return  "预约时间不正确";}
         return "";
     }
